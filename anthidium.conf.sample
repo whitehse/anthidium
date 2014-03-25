@@ -1,0 +1,76 @@
+module_path = "/usr/lib/eocene/";
+#load_modules = [ "eocene_libev", "eocene_bdb", "eocene_sockets", "eocene_http" ];
+load_modules = [ "eocene_libev", "eocene_bdb" , "eocene_ethernet" ];
+
+sources = ( {
+                type = "pcap-live";
+                source = "br0";
+                filter = "";
+                promiscuous = 1;
+                color = "blue";
+            }, {
+                type = "pcap-live";
+                source = "wlan1";
+                filter = "";
+                promiscuous = 1;
+                color = "red";
+            }
+
+);
+
+servers = ( {
+                domain = "AF_INET";
+                type = "SOCK_STREAM";
+                protocol = 0;
+                local_ip = "127.0.0.1";
+                local_port = "5010";
+            }
+);
+
+wireline_modules = [ "eocene_ethernet" ];
+
+data_store_module = "eocene_bdb";
+
+event_module = "eocene_libev";
+
+eocene_bdb: {
+    environment = "/tmp";
+};
+
+eocene_sockets: {
+    # in seconds
+    syn_ack_timeout = 5;
+    submodules = [ "eocene_http" ];
+};
+
+eocene_http: {
+};
+
+application:
+{
+  window:
+  {
+    title = "My Application";
+    size = { w = 640; h = 480; };
+    pos = { x = 350; y = 250; };
+  };
+
+  list = ( ( "abc", 123, true ), 1.234, ( /* an empty list */) );
+
+  books = ( { title  = "Treasure Island";
+              author = "Robert Louis Stevenson";
+              price  = 29.95;
+              qty    = 5; },
+            { title  = "Snow Crash";
+              author = "Neal Stephenson";
+              price  = 9.99;
+              qty    = 8; } );
+
+  misc:
+  {
+    pi = 3.141592654;
+    bigint = 9223372036854775807L;
+    columns = [ "Last Name", "First Name", "MI" ];
+    bitmask = 0x1FC3;
+  };
+};

@@ -1,0 +1,372 @@
+cd anthidium && autoreconf && ./configure && make dist && tar -xvzf anthidium-0.1.tar.gz && cd anthidium-0.1/ && CFLAGS="-g" ./configure && make
+
+su
+ulimit -c 1000000
+
+LD_LIBRARY_PATH=eocene_modules/eocene_libev:eocene_modules/eocene_bdb:eocene_modules/eocene_sockets:eonessa/.libs:eocene/.libs:eocene_ethernet/.libs anthidium/.libs/anthidium -c ../anthidium.conf.sample
+
+gdb anthidium/.libs/anthidium core.xxxx
+
+=========================
+
+anthidium
+eonessa
+
+Database Design:
+
+Active Sockets:
+  pack(server_ip, server_port, client_ip, client_port): index to secondary table
+
+  key struct:
+    uint32_t host1;
+    uint16_t port1;
+    uint32_t host2;
+    uint16_t port2;
+
+  value: index
+
+Active Servers by IP:
+  pack(server_ip): secondary table (multiple values)
+
+Active Clients by IP:
+  pack(server_ip): secondary table (multiple values)
+
+Active Servers by Option 82:
+  pack(server_ip) secondary table (multiple values)
+
+Active Clients by Option 82:
+  pack(server_ip) secondary table (multiple values)
+
+Active Sockets:
+  secondary index
+  value struct:
+    active_hosts <- index to
+    uint16_t server_port;
+    active_hosts <- index to
+    uint16_t client_port;
+    uint8_t socket_type;
+    uint8_t state; (e.g. CLOSED, SYN_SENT, SYN_RECEIVED, ESTABLISHED, FIN_WAIT_1, FIN_WAIT_2, CLOSE_WAIT, CLOSING, LAST_ACK, TIME_WAIT)
+    struct data_transfer:
+      uint64_t 
+
+Active Hosts:
+  key: index
+  value:
+    struct {
+      IP Address
+      Option 82;
+      Mac Address;
+      Client ID;
+      clock_skew;
+
+Historical Sockets:
+  pack(server_ip, server_port, client_ip, client_port): index to secondary tables
+
+TCP Sequences:
+  Next server sequence number:
+    index: sequence_number
+  Next client sequence number:
+    index: sequence_number
+
+Active Host:
+  ip_address: host detail index
+
+host details:
+  hardware type:
+    host_detail_index: hardware type
+  transaction ids:
+    host_detail_index: transaction id
+  circuit id:
+    host_detail_index: circuit id
+  remote id:
+    host_detail_index: remote id
+  client id:
+    host_detail_index: client id
+  yiaddr:
+    host_detail_index: yiaddr
+  siaddr:
+    host_detail_index: siaddr
+  giaddr:
+    host_detail_index: giaddr
+  chaddr:
+    host_detail_index: chaddr
+  sname:
+    host_detail_index: sname
+  file:
+    host_detail_index: file
+  subnet_mask:
+    host_detail_index: subnet_mask
+  router:
+    host_detail_index: router
+  time server:
+    host_detail_index: time server
+  ien_116_nameserver:
+    host_detail_index: ien 116 nameserver
+  domain nameserver:
+    host_detail_index: nameserver
+  log server:
+    host_detail_index: log server
+  cookie server:
+    host_detail_index: cookie server
+  lpr:
+    host_detail_index: lpr
+  impress:
+    host_detail_index: impress
+  resource location:
+    host_detail_index: resource location
+  hostname:
+    host_detail_index: hostname
+  boot_file_size:
+    host_detail_index: boot_file_size
+  merit_dump_file:
+    host_detail_index: merit_dump_file
+  domainname:
+    host_detail_index: domainname
+  swap_server:
+    host_detail_index: swap_server
+  root_path:
+    host_detail_index: root_path
+  extentions_path:
+    host_detail_index: extentions_path
+  ip_forwarding:
+    host_detail_index: ip_forwarding
+  non_local_routing:
+    host_detail_index: non_local_routing
+  policy_filter:
+    host_detail_index: policy_filter
+  max_datagram_size:
+    host_detail_index: max_datagram_size
+  ttl:
+    host_detail_index: ttl
+  mtu_aging_timeout:
+    host_detail_index: mtu_aging_timeout
+  mtu_plateau:
+    host_detail_index: mtu_plateau
+  interface_mtu:
+    host_detail_index: interface_mtu
+  all_subnets_local:
+    host_detail_index: all_subnets_local
+  broadcast_addr:
+    host_detail_index: broadcast_addr
+  perform_mask_disc:
+    host_detail_index: perform_mask_disc
+  mask_supplier:
+    host_detail_index: mask_supplier
+  perform_router_disc:
+    host_detail_index: perform_router_disc
+  router_solicitation:
+    host_detail_index: router_solicitation
+  static_route:
+    host_detail_index: static_route
+  trailer_encap:
+    host_detail_index: trailer_encap
+  arp_cache_timeout:
+    host_detail_index: arp_cache_timeout
+  ethernet_encap:
+    host_detail_index: ethernet_encap
+  tcp_default_ttl:
+    host_detail_index: tcp_default_ttl
+  tcp_keepalive_int:
+    host_detail_index: tcp_keepalive_int
+  tcp_keepalive_garb:
+    host_detail_index: tcp_keepalive_garb
+  nis_domain:
+    host_detail_index: nis_domain
+  nis_servers:
+    host_detail_index: nis_servers
+  ntp_servers:
+    host_detail_index: ntp_servers
+  vendor_specific:
+    host_detail_index: vendor_specific
+  netbios_nameserver:
+    host_detail_index: netbios_nameserver
+  netbios_dist_server:
+    host_detail_index: netbios_dist_server
+  netbios_node_type:
+    host_detail_index: netbios_node_type
+  netbios_scope:
+    host_detail_index: netbios_scope
+  x_font_server:
+    host_detail_index: x_font_server
+  x_display_manager:
+    host_detail_index: x_display_manager
+  requested_ip:
+    host_detail_index: requested_ip
+  lease_time:
+    host_detail_index: lease_time
+  overload:
+    host_detail_index: overload
+  message_type:
+    host_detail_index: message_type
+  server_identification:
+    host_detail_index: server_identification
+  parameter_req_list:
+    host_detail_index: parameter_req_list
+  error_message:
+    host_detail_index: error_message
+  max_dhcp_size:
+    host_detail_index: max_dhcp_size
+  t1_renewal_time:
+    host_detail_index: t1_renewal_time
+  t2_rebinding_time:
+    host_detail_index: t2_rebinding_time
+  vendor_class_identifier:
+    host_detail_index: vendor_class_identifier
+  client_identifier:
+    host_detail_index: client_identifier
+  nis_plus_domain:
+    host_detail_index: nis_plus_domain
+  nis_plus_servers:
+    host_detail_index: nis_plus_servers
+  tftp_server:
+    host_detail_index: tftp_server
+  bootfile:
+    host_detail_index: bootfile
+  mobile_home_agent:
+    host_detail_index: mobile_home_agent
+  smtp_server:
+    host_detail_index: smtp_server
+  pop3_server:
+    host_detail_index: pop3_server
+  nntp_server:
+    host_detail_index: nntp_server
+  www_server:
+    host_detail_index: www_server
+  finger_server:
+    host_detail_index: finger_server
+  irc_server:
+    host_detail_index: irc_server
+  streettalk_server:
+    host_detail_index: streettalk_server
+  stda_server:
+    host_detail_index: stda_server
+  site_specific_128:
+    host_detail_index: site_specific_128
+  site_specific_254:
+    host_detail_index: site_specific_254
+
+
+TCP Hosts:
+  Today:
+    
+When TCP Streams:
+  1 minute table:
+    index: <null>
+
+
+
+-----
+
+module_path = "/usr/lib/eocene/";
+load_modules = [ "eocene_libev", "eocene_bdb", "eocene_sockets", "eocene_http" ];
+
+sources = ( {
+                type = "pcap-live";
+                source = "wlan0";
+                filter = "";
+                promiscuous = 1;
+                color = "blue";
+            }, {
+                type = "pcap-live";
+                source = "br0";
+                filter = "";
+                promiscuous = 1;
+                color = "red";
+            } );
+
+};
+
+servers = ( {
+                domain = "AF_INET";
+                type = "SOCK_STREAM";
+                protocol = 0;
+                local_ip = "127.0.0.1";
+                local_port = "5010";
+            } );
+};
+
+top_level_modules = [ "eocene_sockets" ];
+
+data_store_module = "eocene_bdb";
+
+event_module = "libev";
+
+eocene_bdb: {
+    environment = "/tmp";
+};
+
+eocene_sockets: {
+    # in seconds
+    syn_ack_timeout = 5;
+    submodules = [ "eocene_http" ];
+};
+
+eocene_http: {
+};
+
+application:
+{
+  window:
+  {
+    title = "My Application";
+    size = { w = 640; h = 480; };
+    pos = { x = 350; y = 250; };
+  };
+
+  list = ( ( "abc", 123, true ), 1.234, ( /* an empty list */) );
+
+  books = ( { title  = "Treasure Island";
+              author = "Robert Louis Stevenson";
+              price  = 29.95;
+              qty    = 5; },
+            { title  = "Snow Crash";
+              author = "Neal Stephenson";
+              price  = 9.99;
+              qty    = 8; } );
+
+  misc:
+  {
+    pi = 3.141592654;
+    bigint = 9223372036854775807L;
+    columns = [ "Last Name", "First Name", "MI" ];
+    bitmask = 0x1FC3;
+  };
+};
+
+
+=========================
+
+Stuff to store:
+  libpcap files
+  mbox formatted email files
+  some kind of audio output from voip calls
+  transport stream output from video streams
+  telemetry logging of textual based connection oriented protocols (imap)
+  Break up http communications into something easy to digest
+
+=========================
+
+Query for interfaces:
+
+    tag01 {
+        enumerate_active_interfaces();
+    };
+
+    tag01 {
+        /* enumerate_active_interfaces(); */
+        interfaces = [ "eth0", "eth1" ];
+    };
+
+    tag02 {
+        if (interface == "eth0" &&
+            ip.addr == 192.168.1.1 &&
+            ip.addr == 192.168.1.4) {
+
+            
+        };
+    };
+
+    tag02 {
+        
+    };
+

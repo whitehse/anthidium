@@ -108,6 +108,9 @@ struct ec_ethernet {
     int done;
 };
 
-int ec_eth_parse(const char* buf, unsigned n, int capture_type, struct eonessa*);
+//int ec_eth_parse(const char* buf, unsigned n, int capture_type, struct eonessa*);
+typedef int (*eocene_ethernet_listener)(struct ec_ethernet *frame, const char* buf, unsigned buf_len);
+typedef int (*eocene_ethernet_register_listener)(void *callback);
+
 
 #endif // EOCENE_ETHERNET_BASE_H

@@ -17,23 +17,20 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef EOCENE_LIBEV_BASE_H
-#define EOCENE_LIBEV_BASE_H
+#ifndef EOCENE_IPV4_BASE_H
+#define EOCENE_IPv4_BASE_H
 
 /* Return types. But only use these internally! */
 /* Use, for example, EC_OK, when returning from public
  * functions. */
-#define EC_EV_OK               0 /* successful result */
-#define EC_EV_FAIL            -1 /* generic failure */
-#define EC_EV_NOMEM           -2 /* memory shortage failure */
-#define EC_EV_BUFOVER         -3 /* overflowed buffer */
-#define EC_EV_BADPARAM        -4 /* invalid parameter supplied */
-#define EC_EV_BAD_DATA        -5 /* Invalid Packet */
+#define EC_IPV4_OK               0 /* successful result */
+#define EC_IPV4_FAIL            -1 /* generic failure */
+#define EC_IPV4_NOMEM           -2 /* memory shortage failure */
+#define EC_IPV4_BUFOVER         -3 /* overflowed buffer */
+#define EC_IPV4_BADPARAM        -4 /* invalid parameter supplied */
+#define EC_IPV4_BAD_DATA        -5 /* Invalid Packet */
 
-int _ec_init();
-int ec_watch_fd_for_reads(int fd, void *associated_data, ec_io_cb io_cb);
-int ec_watch_fd_for_writes(int fd, void *associated_data, ec_io_cb io_cb);
-int ec_watch_fd_for_reads_and_writes(int fd, void *associated_data, ec_io_cb io_cb);
-int ec_run();
+#define init eocene_ipv4_LTX_init
+#define parse eocene_ipv4_LTX_parse
 
-#endif // EOCENE_LIBEV_BASE_H
+#endif // EOCENE_TEMPLATE_BASE_H

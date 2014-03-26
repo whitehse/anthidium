@@ -1,6 +1,6 @@
 module_path = "/usr/lib/eocene/";
 #load_modules = [ "eocene_libev", "eocene_bdb", "eocene_sockets", "eocene_http" ];
-load_modules = [ "eocene_libev", "eocene_bdb" , "eocene_ethernet" ];
+load_modules = [ "eocene_libev", "eocene_bdb" , "eocene_ethernet", "eocene_ipv4" ];
 
 sources = ( {
                 type = "pcap-live";

@@ -7,6 +7,9 @@
 #include <eocene.h>
 #include "eocene_dhcpv4.h"
 
+#define init eocene_dhcpv4_LTX_init
+#define parse eocene_dhcpv4_LTX_parse
+
 int eocene_parse_dhcpv4(const char* buf, unsigned n, struct eocene_dhcpv4* spdh4, int flags) {
 /*    if (n < EC_MIN_IPV4_PACKET_SIZE || n > EC_MAX_IPV4_PACKET_SIZE) {
         return EC_D4_BAD_DATA;

@@ -333,7 +333,15 @@ int main (int argc, char **argv) {
             fprintf(stderr, "Unable to load module %s: %s\n", module, eocene_error_string(error));
             config_destroy(&cfg);
             exit(EXIT_FAILURE);
+        } else {
+            fprintf(stderr, "Sucessfully loaded module %s.\n", module);
         }
+        eocene_init eocene_init_ref;
+        config_setting_t *module_config;
+        //module_config = config_setting_get_string_elem(modules, i);
+        fprintf (stderr, "Getting ready to find the init function for module %s\n", module);
+        result = find_eocene_symbol (module, "init", &eocene_init_ref);
+        result = (*eocene_init_ref) (&module_config, state);
     }
 
     config_lookup_string(&cfg, "data_store_module", &data_store_module);
@@ -381,12 +389,12 @@ int main (int argc, char **argv) {
         eocene_wireline_parse eocene_wireline_parse_ref;
         config_setting_t *module_config;
         const char *module = config_setting_get_string_elem(wireline_modules, i);
-        result = find_eocene_symbol (module, "init", &eocene_init_ref);
+//        result = find_eocene_symbol (module, "init", &eocene_init_ref);
         result = find_eocene_symbol (module, "parse", &eocene_wireline_parse_ref);
         if (result) {
             fprintf (stderr, "Danger Will Robinson!\n");
         }
-        result = (*eocene_init_ref) (&module_config, state);
+//        result = (*eocene_init_ref) (&module_config, state);
         wireline_callbacks[i] = eocene_wireline_parse_ref;
     }
     //wireline_callbacks[i+1] = NULL;

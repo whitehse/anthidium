@@ -34,9 +34,6 @@ struct eocene_socket_state {
     int active;
 };
 
-#define init eocene_sockets_LTX_init
-#define parse eocene_sockets_LTX_parse
-
 int init(config_setting_t *config, struct ec_state *_state);
 
 int parse(struct eonessa_clump *clump);

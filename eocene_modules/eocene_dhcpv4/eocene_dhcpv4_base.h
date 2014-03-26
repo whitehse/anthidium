@@ -194,9 +194,6 @@ struct eocene_dhcpv4 {
     struct eocene_dhcpv4_option options[EC_D4_MAX_DHCPV4_OPTIONS];
 };
 
-#define init eocene_dhcpv4_LTX_init
-#define parse eocene_dhcpv4_LTX_parse
-
 int init(config_setting_t *config);
 int parse(const char* buf, unsigned n, struct eocene_dhcpv4*, int flags);
 

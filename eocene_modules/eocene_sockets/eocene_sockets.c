@@ -7,6 +7,9 @@
 #include <eocene.h>
 #include "eocene_sockets.h"
 
+#define init eocene_sockets_LTX_init
+#define parse eocene_sockets_LTX_parse
+
 struct ec_state *state;
 
 void *socket_table_ref;

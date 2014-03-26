@@ -7,13 +7,20 @@
 #include <eocene.h>
 #include "eocene_ethernet.h"
 
+eocene_ethernet_listener *ethernet_listeners;
+int number_of_ethernet_listeners = 0;
+
 int init(config_setting_t *config, struct ec_state *_state) {
     return EC_OK;
 }
 
-int parse(const char* buf, unsigned n, int capture_type) {
-    fprintf (stderr, "eocene_ethernet_parse was called.\n");
+int register_listener(void *callback) {
+    fprintf (stderr, "ethernet's register_listener was called.\n");
+    ethernet_listeners[number_of_ethernet_listeners] = callback;
+    number_of_ethernet_listeners += 1;
+}
 
+int parse(const char* buf, unsigned n, int capture_type) {
     if (n < EC_ETH_MIN_SNAPLEN || n > EC_ETH_MAX_SNAPLEN) {
         return EC_ETH_BAD_FRAME;
     }
@@ -277,5 +284,11 @@ int parse(const char* buf, unsigned n, int capture_type) {
     }
 
 out:
+
+    // Further processing
+    for (i=0; i<number_of_ethernet_listeners; i++) {
+        (*ethernet_listeners[i]) (frame, buf, n);
+    }
+
     return EC_ETH_OK;
 }

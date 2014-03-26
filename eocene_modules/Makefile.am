@@ -1,1 +1,1 @@
-SUBDIRS= eocene_sockets eocene_dhcpv4 eocene_http eocene_bdb eocene_libev eocene_ethernet
+SUBDIRS= eocene_sockets eocene_dhcpv4 eocene_http eocene_bdb eocene_libev eocene_ethernet eocene_ipv4

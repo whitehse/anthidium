@@ -8,9 +8,6 @@
 #include <eocene.h>
 #include "eocene_libev.h"
 
-#define init eocene_libev_LTX_init
-#define parse eocene_libev_LTX_parse
-
 struct ev_loop *loop = NULL;
 
 struct ec_timer_list *timer_list_head;

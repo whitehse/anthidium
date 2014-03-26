@@ -37,9 +37,6 @@
 #define EC_HT_RESPONSE_HEADER_DATA 4 /* Received some header data (from server) */
 #define EC_HT_RESPONSE_BODY        5 /* Expecting more body data */
 
-#define init eocene_http_LTX_init
-#define parse eocene_http_LTX_parse
-
 int init(config_setting_t *config);
 int parse(struct eonessa en, struct eonessa_tcp ent);
 

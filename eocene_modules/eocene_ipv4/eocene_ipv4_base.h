@@ -18,7 +18,7 @@
  */
 
 #ifndef EOCENE_IPV4_BASE_H
-#define EOCENE_IPv4_BASE_H
+#define EOCENE_IPV4_BASE_H
 
 /* Return types. But only use these internally! */
 /* Use, for example, EC_OK, when returning from public
@@ -30,7 +30,4 @@
 #define EC_IPV4_BADPARAM        -4 /* invalid parameter supplied */
 #define EC_IPV4_BAD_DATA        -5 /* Invalid Packet */
 
-#define init eocene_ipv4_LTX_init
-#define parse eocene_ipv4_LTX_parse
-
-#endif // EOCENE_TEMPLATE_BASE_H
+#endif // EOCENE_IPV4_BASE_H

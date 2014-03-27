@@ -29,9 +29,6 @@
 #define EC_ETH_BADPARAM        -4 /* invalid parameter supplied */
 #define EC_ETH_BAD_FRAME       -5 /* Invalid Packet */
 
-#define init eocene_ethernet_LTX_init
-#define parse eocene_ethernet_LTX_parse
-
 /*#define EC_ETH_MAX_COMPONENTS 128*/  /* Maximum number of headers and components that
                                   the library will parse */
 
@@ -47,6 +44,8 @@
 #define EC_ETH_FRAME_802_DOT_3   2  /* Length + 802.2 LLC */
 /* 802.3 requires an LLC (802.2) header, which in turn optionally supports a
  * SNAP header */
+
+#define EC_ETH_FRAME_STP_WITHOUT_SNAP 0x4242
 
 #define EC_ETH_MAX_VLAN_TAGS 8
 #define EC_ETH_MAX_MPLS_TAGS 8
@@ -109,8 +108,9 @@ struct ec_ethernet {
 };
 
 //int ec_eth_parse(const char* buf, unsigned n, int capture_type, struct eonessa*);
-typedef int (*eocene_ethernet_listener)(struct ec_ethernet *frame, const char* buf, unsigned buf_len);
+typedef int (*eocene_ethernet_listener)(struct ec_ethernet *frame);
 typedef int (*eocene_ethernet_register_listener)(void *callback);
 
+#define EC_ETH_MAX_LISTENERS          128
 
 #endif // EOCENE_ETHERNET_BASE_H

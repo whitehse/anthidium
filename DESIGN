@@ -3,9 +3,27 @@ cd anthidium && autoreconf && ./configure && make dist && tar -xvzf anthidium-0.
 su
 ulimit -c 1000000
 
-LD_LIBRARY_PATH=eocene_modules/eocene_libev:eocene_modules/eocene_bdb:eocene_modules/eocene_sockets:eonessa/.libs:eocene/.libs:eocene_modules/eocene_ethernet/.libs:eocene_modules/eocene_ipv4/.libs anthidium/.libs/anthidium -c ../anthidium.conf.sample
+LD_LIBRARY_PATH=eocene_modules/eocene_libev:eocene_modules/eocene_bdb:eocene_modules/eocene_sockets:eonessa/.libs:eocene/.libs:eocene_modules/eocene_ethernet/.libs:eocene_modules/eocene_ipv4/.libs:eocene_modules/eocene_stp/.libs anthidium/.libs/anthidium -c ../anthidium.conf.sample
 
 gdb anthidium/.libs/anthidium core.xxxx
+
+LD_LIBRARY_PATH=eocene_modules/eocene_libev:eocene_modules/eocene_bdb:eocene_modules/eocene_sockets:eonessa/.libs:eocene/.libs:eocene_modules/eocene_ethernet/.libs:eocene_modules/eocene_ipv4/.libs:eocene_modules/eocene_stp/.libs gdb anthidium/.libs/anthidium
+(gdb) set args -c ../anthidium.conf.sample
+(gdb) break eocene_ethernet.c:293
+No source file named eocene_ethernet.c.
+Make breakpoint pending on future shared library load? (y or [n]) y
+(gdn) run
+(gdb) print ethernet_listeners[0]
+$1 = (eocene_ethernet_listener *) 0x7ffff58f2795 <my_eocene_ethernet_listener>
+(gdb) step
+Program received signal SIGSEGV, Segmentation fault.
+0x00007ffff5af4ca5 in eocene_ethernet_LTX_parse (buf=0x611f00 "\377\377\377\377\377\377", n=60,
+    capture_type=1) at eocene_ethernet.c:293
+293             (*ethernet_listeners[i]) (frame);
+
+
+
+
 
 =========================
 

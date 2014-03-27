@@ -17,15 +17,12 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef EOCENE_ETHERNET_H
-#define EOCENE_ETHERNET_H_
+#ifndef EOCENE_STP_H
+#define EOCENE_STP_H
 
 /*This is a main header - it inludes everything else.*/
 
-#include "eocene_ethernet_base.h"
-#include "eocene_ethernet_ethertypes.h"
-#include "eocene_ethernet_saps.h"
-#include "eocene_ethernet_util.h"
+#include "eocene_stp_base.h"
 
-#endif // EOCENE_ETHERNET_H
+#endif // EOCENE_STP_H
 

@@ -1,21 +1,14 @@
 module_path = "/usr/lib/eocene/";
 #load_modules = [ "eocene_libev", "eocene_bdb", "eocene_sockets", "eocene_http" ];
-load_modules = [ "eocene_libev", "eocene_bdb" , "eocene_ethernet", "eocene_ipv4" ];
+load_modules = [ "eocene_libev", "eocene_bdb" , "eocene_ethernet", "eocene_ipv4", "eocene_stp" ];
 
 sources = ( {
                 type = "pcap-live";
-                source = "br0";
+                source = "eth4";
                 filter = "";
                 promiscuous = 1;
                 color = "blue";
-            }, {
-                type = "pcap-live";
-                source = "wlan1";
-                filter = "";
-                promiscuous = 1;
-                color = "red";
             }
-
 );
 
 servers = ( {

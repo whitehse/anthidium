@@ -23,6 +23,7 @@
 #define EC_ETH_ETHER_UNKNOWN               0x0000
 #define EC_ETH_ETHER_IPV4                  0x0800
 #define EC_ETH_ETHER_ARP                   0x0806
+#define EC_ETH_ETHER_802_DOT_1_STP         0x4242
 #define EC_ETH_ETHER_IS_IS                 0x8000
 #define EC_ETH_ETHER_REVERSE_ARP           0x8035
 #define EC_ETH_ETHER_VLAN_TAG_8100         0x8100

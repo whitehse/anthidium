@@ -8,6 +8,9 @@
 #include <eocene.h>
 #include "eocene_bdb.h"
 
+#define init eocene_bdb_LTX_init
+#define parse eocene_bdb_LTX_parse
+
 config_setting_t *config_ref;
 
 int init(config_setting_t *config) {

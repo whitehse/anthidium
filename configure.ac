@@ -95,6 +95,7 @@ AC_OUTPUT(Makefile \
           eocene_modules/eocene_libev/Makefile \
           eocene_modules/eocene_ethernet/Makefile \
           eocene_modules/eocene_ipv4/Makefile \
+          eocene_modules/eocene_stp/Makefile \
 		  anthidium/Makefile \
 )
 

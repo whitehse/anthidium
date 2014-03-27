@@ -221,6 +221,7 @@ int main (int argc, char **argv) {
     config_setting_t *wireline_modules;
     char *data_store_module = NULL;
     char *event_module = NULL;
+    char *output_module = NULL;
     int number_of_modules = 0;
     int number_of_sources = 0;
     int result;
@@ -300,6 +301,8 @@ int main (int argc, char **argv) {
         config_destroy(&cfg);
         exit(EXIT_FAILURE);
     }
+
+    state->cfg = &cfg;
 
     config_lookup_string(&cfg, "module_path", &module_path);
     if (module_path) {
@@ -398,6 +401,14 @@ int main (int argc, char **argv) {
         wireline_callbacks[i] = eocene_wireline_parse_ref;
     }
     //wireline_callbacks[i+1] = NULL;
+
+    config_lookup_string(&cfg, "output_module", &output_module);
+    if (!event_module) {
+        fprintf(stderr, "configuration item 'output_module' could not be found.\n");
+        exit(EXIT_FAILURE);
+    }
+    
+    result = find_eocene_symbol (output_module, "print", &(state->printer));
 
     sources = config_lookup(&cfg, "sources");
     if (!sources) {

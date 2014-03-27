@@ -54,6 +54,7 @@ typedef int (*ec_put_cb)(void **db, void *key, int key_len, void **value, int *v
 typedef int (*ec_get_cb)(void **db, void *key, int key_len, void **value, int *value_len);
 typedef int (*ec_del_cb)(void **db, void *key, int key_len);
 typedef int (*ec_close_table_cb)(void **db);
+typedef int (*ec_printer_cb)(void *value, int vartype);
 
 #define EC_READ  1
 #define EC_WRITE 2
@@ -119,6 +120,8 @@ struct ec_state {
     ec_watch_fd_for_writes_cb watch_fd_for_writes;
     ec_watch_fd_for_reads_and_writes_cb watch_fd_for_reads_and_writes;
     ec_run_cb run;
+    ec_printer_cb printer;
+    struct config_t *cfg;
     void* master_lua_state;
 };
 

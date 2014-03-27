@@ -1,6 +1,6 @@
 module_path = "/usr/lib/eocene/";
 #load_modules = [ "eocene_libev", "eocene_bdb", "eocene_sockets", "eocene_http" ];
-load_modules = [ "eocene_libev", "eocene_bdb" , "eocene_ethernet", "eocene_ipv4", "eocene_stp" ];
+load_modules = [ "eocene_libev", "eocene_bdb" , "eocene_output_text", "eocene_ethernet", "eocene_ipv4", "eocene_stp" ];
 
 sources = ( {
                 type = "pcap-live";
@@ -25,6 +25,8 @@ wireline_modules = [ "eocene_ethernet" ];
 data_store_module = "eocene_bdb";
 
 event_module = "eocene_libev";
+
+output_module = "eocene_output_text";
 
 eocene_bdb: {
     environment = "/tmp";

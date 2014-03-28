@@ -1,6 +1,6 @@
 
 /*
- * Copyright (C) 2011 Dan White
+ * Copyright (C) 2014 Dan White
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

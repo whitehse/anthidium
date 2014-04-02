@@ -4,7 +4,6 @@
 #include <stdint.h>
 #include <libconfig.h>
 #include <ev.h>
-#include <eonessa.h>
 #include <eocene.h>
 #include "eocene_libev.h"
 

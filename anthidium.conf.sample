@@ -4,7 +4,7 @@ load_modules = [ "eocene_libev", "eocene_bdb" , "eocene_output_text", "eocene_et
 
 sources = ( {
                 type = "pcap-live";
-                source = "eth4";
+                source = "wlan1";
                 filter = "";
                 promiscuous = 1;
                 color = "blue";

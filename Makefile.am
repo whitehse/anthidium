@@ -2,13 +2,13 @@
 
 #Build in these directories:
 #ACLOCAL_AMFLAGS = -I m4
-SUBDIRS = libltdl eonessa eocene eocene_modules anthidium
+SUBDIRS = libltdl eocene eocene_modules anthidium
 
 #Distribute these directories:
-DIST_SUBDIRS = libltdl eonessa eocene eocene_modules anthidium
+DIST_SUBDIRS = libltdl eocene eocene_modules anthidium
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = eonessa-1.0.pc eocene-1.0.pc
+pkgconfig_DATA = eocene-1.0.pc
 
 pkglibdir = $(libdir)/eocene
 

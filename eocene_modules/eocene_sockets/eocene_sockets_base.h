@@ -36,9 +36,4 @@ struct eocene_socket_state {
 
 int init(config_setting_t *config, struct ec_state *_state);
 
-int parse(struct eonessa_clump *clump);
-
-typedef int sub_eocene_sockets_parse (struct eonessa_clump *clump, struct eocene_socket_state *socket_state);
-
-
 #endif // EOCENE_SOCKETS_BASE_H

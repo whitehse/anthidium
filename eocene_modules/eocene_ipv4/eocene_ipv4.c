@@ -54,7 +54,7 @@ int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
 
     ipv4->header_length = *(uint8_t *)(buf+offset) & 0x0f;
     if (ipv4->header_length < 5 ||
-        ipv4->header_length * 4 > ipv4->header_length) {
+        ipv4->header_length * 4 > ipv4->packet_size) {
         return EC_BADPARAM;
     }
     ipv4->payload_length = ipv4->packet_size - ipv4->header_length*4;
@@ -131,8 +131,8 @@ int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
     }
 
 out:
-            ipv4_destination_ip_in_decimal(&ipv4);
-            ipv4_source_ip_in_decimal(&ipv4);
+            ipv4_destination_ip_in_decimal(ipv4);
+            ipv4_source_ip_in_decimal(ipv4);
             fprintf (stderr, "IPv4 packet data:\n");
             fprintf (stderr, "  version=%d.\n", ipv4->version);
             fprintf (stderr, "  header_length=%d.\n", ipv4->header_length);

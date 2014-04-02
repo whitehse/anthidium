@@ -103,3 +103,34 @@ static char *dlerrordup (char *errormsg) {
     errormsg = strdup (error);
   return errormsg;
 }
+
+void print_line(const char *line, unsigned n) {
+    int i;
+    int display_width=16;
+
+    for(i=0;i<n;i++)
+        fprintf(stderr, "%02x ", (unsigned char)line[i]);
+    for(i=n;i<display_width;i++)
+        fprintf(stderr, "   ");
+    fprintf(stderr, " ");
+    for(i=0;i<n;i++)
+        if(isgraph((unsigned) line[i]))
+            fprintf(stderr, "%c", line[i]);
+        else
+            fprintf(stderr, ".");
+        fprintf(stderr, "\n");
+}
+
+void dump_buffer(const char* dump, unsigned n) {
+    int i;
+
+    if (dump == NULL) { return; }
+
+    for (i=0;i<n;i+=16) {
+        if(i + 16 <= n)
+            print_line(dump+i, 16);
+        else
+            print_line(dump+i, n - i);
+    }
+}
+

@@ -4,7 +4,6 @@
 #include <stdint.h>
 #include <libconfig.h>
 #include <db.h>
-#include <eonessa.h>
 #include <eocene.h>
 #include "eocene_bdb.h"
 
@@ -16,11 +15,6 @@ config_setting_t *config_ref;
 int init(config_setting_t *config) {
     config_ref = config;
     return EC_OK;
-}
-
-int parse(const char* buf, unsigned n, int flags, struct eonessa* en) {
-    int i;
-    int offset=0;
 }
 
 int open_table (void **db, char *table) {

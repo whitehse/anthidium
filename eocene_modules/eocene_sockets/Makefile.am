@@ -1,7 +1,7 @@
 h_sources = eocene_sockets.h eocene_sockets_base.h
 cc_sources = eocene_sockets.c
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eonessa -I$(top_srcdir)/eocene
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eocene
 
 pkglibdir = $(libdir)/eocene
 

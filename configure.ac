@@ -12,7 +12,7 @@ dnl -----------------------------------------------
 dnl Package name and version number (user defined)
 dnl -----------------------------------------------
 
-GENERIC_LIBRARY_NAME=eonessa
+GENERIC_LIBRARY_NAME=eocene
 
 #release versioning
 GENERIC_MAJOR_VERSION=1
@@ -83,8 +83,6 @@ dnl Generates Makefile's, configuration files and scripts
 dnl -----------------------------------------------
 
 AC_OUTPUT(Makefile \
-          eonessa-1.0.pc \
-          eonessa/Makefile \
           eocene-1.0.pc \
           eocene/Makefile \
           eocene_modules/Makefile

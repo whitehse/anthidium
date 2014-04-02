@@ -31,6 +31,5 @@
 #define EC_BDB_BAD_DATA        -5 /* Invalid Packet */
 
 int init(config_setting_t *config);
-int parse(const char* buf, unsigned n, int flags, struct eonessa* en);
 
 #endif // EOCENE_BDB_BASE_H

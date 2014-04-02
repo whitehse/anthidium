@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <libconfig.h>
-#include <eonessa.h>
 #include <eocene.h>
 #include "eocene_sockets.h"
 
@@ -32,8 +31,4 @@ int init(config_setting_t *config, struct ec_state *_state) {
 //    (state->put)(socket_table_ref_ref, "test", 4, &val, &val_len);
 
     return EC_OK;
-}
-
-int parse(struct eonessa_clump *clump) {
-    fprintf(stderr, "parse (within eocene_sockets) was called.\n");
 }

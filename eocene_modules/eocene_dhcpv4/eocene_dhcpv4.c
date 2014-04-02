@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <libconfig.h>
-#include <eonessa.h>
 #include <eocene.h>
 #include "eocene_dhcpv4.h"
 

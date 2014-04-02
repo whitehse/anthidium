@@ -20,5 +20,5 @@ AM_CPPFLAGS = \
 #    -DPACKAGE_SCRIPT_DIR=\""$(libexecdir)/scripts"\"
 
 anthidium_SOURCES = $(h_sources) $(cc_sources)
-anthidium_LDADD = $(INTI_LIBS) -L../eonessa/.libs -leonessa -L../eocene/.libs -leocene -lpcap $(LIBCONFIG_LIBS) $(LUA_LIBS)
+anthidium_LDADD = $(INTI_LIBS) -L../eocene/.libs -leocene -lpcap $(LIBCONFIG_LIBS) $(LUA_LIBS)
 #select_LDFLAGS = -static

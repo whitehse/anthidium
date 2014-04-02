@@ -38,6 +38,5 @@
 #define EC_HT_RESPONSE_BODY        5 /* Expecting more body data */
 
 int init(config_setting_t *config);
-int parse(struct eonessa en, struct eonessa_tcp ent);
 
 #endif // EOCENE_HTTP_BASE_H

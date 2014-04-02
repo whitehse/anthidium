@@ -10,8 +10,6 @@
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
-#include <eonessa/eonessa.h>
-#include <eonessa/eonessa_util.h>
 #include <eocene/eocene.h>
 #include <eocene/eocene_util.h>
 #include "anthidium.h"
@@ -22,8 +20,6 @@ int number_of_wireline_modules = 0;
 lua_State* master_lua_state;
 
 int j=0;
-
-sub_eonessa_parse module_array[MAX_NUM_OF_SUBMODULES+1];
 
 static struct option const long_options[] =
 {
@@ -56,152 +52,12 @@ int pcap_cb (pcap_t *handle, int mask) {
         state->new_timer (test2, NULL, 10, local_timer_cb);
     }
 
-/*    memset(&en, 0, sizeof (struct eonessa));
-    memset(&ena, 0, sizeof (struct eonessa_arp));
-    memset(&en4, 0, sizeof (struct eonessa_ipv4));
-    memset(&enu, 0, sizeof (struct eonessa_udp));
-    memset(&ent, 0, sizeof (struct eonessa_tcp));
-    clump.number_of_ether_headers = 1;
-    clump.eonessa[0] = &en; 
-*/
     dump_buffer(frame, header.len);
-/*
-    r = eonessa_parse(frame, header.len, EN_CAP_TYPE_PCAP, &en);
-    if (r) {
-        fprintf(stderr, "Invalid frame.\n");
-        fprintf(stderr, "======================================\n");
-        return;
-    }
-    destination_mac_in_colon_format(&en);
-    source_mac_in_colon_format(&en);
-    destination_oui_in_dash_format(&en);
-    source_oui_in_dash_format(&en);
-    fprintf (stderr, "Destination MAC: %s\n", en.destination_mac_colon_format);
-    fprintf (stderr, "Source MAC: %s\n", en.source_mac_colon_format);
-    fprintf (stderr, "Destination OUI: %s\n", en.destination_oui_dash_format);
-    fprintf (stderr, "Source OUI: %s\n", en.source_oui_dash_format);
-    fprintf(stderr, "Payload ethertype = %04x. Payload length is %d.\n", en.payload_ethertype, en.payload_length);
-    fprintf(stderr, "The Frame size is %d.\n", en.frame_size);
-    if (en.contents & EN_CONTAINS_MPLS_TAGS) {
-        fprintf (stderr, "MPLS Tags found(%d).\n", en.number_of_mpls_tags);
-        for (i=0;i<en.number_of_mpls_tags;i++) {
-            fprintf (stderr, "Tag #%d:\n", i);
-            fprintf (stderr, "  label = %05x (hex)\n", en.mpls_tags[i].label);
-            fprintf (stderr, "  cos = %d\n", en.mpls_tags[i].cos);
-            fprintf (stderr, "  stack bit = %d\n", en.mpls_tags[i].stack_bit);
-            fprintf (stderr, "  ttl = %02x (hex)\n", en.mpls_tags[i].ttl);
-        }
-    }
-    if (en.contents & EN_CONTAINS_VLAN_TAGS) {
-        fprintf (stderr, "VLAN Tags found(%d).\n", en.number_of_vlan_tags);
-        for (i=0;i<en.number_of_vlan_tags;i++) {
-            fprintf (stderr, "Tag #%d:\n", i);
-            fprintf (stderr, "  tag type = %04x (hex)\n", en.vlan_tags[i].tag_type);
-            fprintf (stderr, "  priority = %d\n", en.vlan_tags[i].priority);
-            fprintf (stderr, "  canonical format = %d\n", en.vlan_tags[i].canonical_format);
-            fprintf (stderr, "  vlan = %d\n", en.vlan_tags[i].vlan);
-        }
-    }
-    switch (en.payload_ethertype) {
-        case EN_ETHER_IPV4:
-            r = eonessa_parse_ipv4(en.payload_pointer, en.payload_length, &en4, 0);
-            if (r) {
-                fprintf(stderr, "Invalid packet.\n");
-                fprintf(stderr, "======================================\n");
-                return;
-            }
-            ipv4_destination_ip_in_decimal(&en4);
-            ipv4_source_ip_in_decimal(&en4);
-            fprintf (stderr, "IPv4 packet data:\n");
-            fprintf (stderr, "  version=%d.\n", en4.version);
-            fprintf (stderr, "  header_length=%d.\n", en4.header_length);
-            fprintf (stderr, "  dscp=%d.\n", en4.dscp);
-            fprintf (stderr, "  ecn=%d.\n", en4.ecn);
-            fprintf (stderr, "  total_length=%d.\n", en4.total_length);
-            fprintf (stderr, "  identification=%d.\n", en4.identification);
-            fprintf (stderr, "  flags=%d.\n", en4.flags);
-            fprintf (stderr, "  fragment_offset=%d.\n", en4.fragment_offset);
-            fprintf (stderr, "  ttl=%d.\n", en4.ttl);
-            fprintf (stderr, "  protocol=%x (hex).\n", en4.protocol);
-            fprintf (stderr, "  checksum=%x (hex).\n", en4.checksum);
-            fprintf (stderr, "  source ip = %s.\n", en4.source_ip_decimal);
-            fprintf (stderr, "  destination ip = %s.\n", en4.destination_ip_decimal);
-            fprintf (stderr, "  number of options = %d.\n", en4.number_of_options);
-            fprintf (stderr, "  payload length = %d.\n", en4.total_length - en4.header_length*4);
-            fprintf (stderr, "  payload offset = %d.\n", en4.header_length*4);
-            if (en4.number_of_options > 0) {
-                fprintf (stderr, "  IPv4 options were found.\n");
-            }
-            for (i=0;i<en4.number_of_options;i++) {
-                fprintf (stderr, "    copy flag = %0d\n", en4.header_options[i].copy_flag);
-                fprintf (stderr, "    class type = %0d\n", en4.header_options[i].class_type);
-                fprintf (stderr, "    option number = %0d\n", en4.header_options[i].number);
-                fprintf (stderr, "    length = %0d\n", en4.header_options[i].length);
-            }
-            break;
-        default:
-            goto out;
-            break;
-    }
-    switch (en4.protocol) {
-        case EN_PROT_UDP:
-            r = eonessa_parse_udp(en4.payload_pointer, en4.payload_length, &enu, 0);
-            if (r) {
-                fprintf(stderr, "Invalid UDP message.\n");
-                fprintf(stderr, "======================================\n");
-                return;
-            }
-            fprintf (stderr, "  UDP message data:\n");
-            fprintf (stderr, "    source port=%d.\n", enu.source_port);
-            fprintf (stderr, "    destination port=%d.\n", enu.destination_port);
-            fprintf (stderr, "    length=%d.\n", enu.length);
-            fprintf (stderr, "    checksum=%d.\n", enu.checksum);
-            fprintf (stderr, "    payload length=%d.\n", enu.payload_length);
-            break;
-        case EN_PROT_TCP:
-            r = eonessa_parse_tcp(en4.payload_pointer, en4.payload_length, &ent, 0);
-            if (r) {
-                fprintf(stderr, "Invalid TCP message.\n");
-                fprintf(stderr, "======================================\n");
-                return;
-            }
-            fprintf (stderr, "  TCP message data:\n");
-            fprintf (stderr, "    source port=%d.\n", ent.source_port);
-            fprintf (stderr, "    destination port=%d.\n", ent.destination_port);
-            fprintf (stderr, "    sequence number=%d.\n", ent.sequence_number);
-            fprintf (stderr, "    acknownledgement number=%d.\n", ent.acknowledgement_number);
-            fprintf (stderr, "    data offset=%d.\n", ent.data_offset);
-            fprintf (stderr, "    flags=%d.\n", ent.flags);
-            fprintf (stderr, "    window_size=%d.\n", ent.window_size);
-            fprintf (stderr, "    checksum=%d.\n", ent.checksum);
-            fprintf (stderr, "    urgent pointer=%d.\n", ent.urgent_pointer);
-            fprintf (stderr, "    number of options=%d.\n", ent.number_of_options);
-            fprintf (stderr, "    payload length=%d.\n", ent.payload_length);
-            if (ent.number_of_options > 0) {
-                fprintf (stderr, "    TCP options were found.\n");
-            }
-            for (i=0;i<ent.number_of_options;i++) {
-                fprintf (stderr, "      option number = %0d\n", ent.header_options[i].number);
-                fprintf (stderr, "      length = %0d\n", ent.header_options[i].length);
-            }
-            break;
-         default:
-            goto out;
-            break;
-    }
 
-out:
-*/
     // Further processing
     for (i=0; i<number_of_wireline_modules; i++) {
-        (*wireline_callbacks[i]) (frame, header.len, EN_CAP_TYPE_PCAP);
+        (*wireline_callbacks[i]) (frame, header.len, EC_CAP_TYPE_PCAP);
     }
-
-/*    sub_eonessa_parse module_caller = NULL;
-    for (i=0; module_caller=module_array[i]; i++) {
-        (*module_caller) (&clump);
-    }
-    fprintf(stderr, "Just called all submodules.\n");*/
 
     fprintf(stderr, "======================================\n");
 }
@@ -327,7 +183,6 @@ int main (int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     number_of_modules = config_setting_length(modules);
-    memset(module_array, 0, sizeof(sub_eonessa_parse)*(MAX_NUM_OF_SUBMODULES+1));
 
     for (i=0; i<number_of_modules; i++) {
         const char *module = config_setting_get_string_elem(modules, i);

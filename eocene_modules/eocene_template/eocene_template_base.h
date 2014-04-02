@@ -37,6 +37,4 @@ int init(config_setting_t *config,
         ec_rem_cb rem,
         ec_unuse_table_cb _unuse_table);
 
-int parse(const char* buf, unsigned n, int flags, struct eonessa *en);
-
 #endif // EOCENE_TEMPLATE_BASE_H

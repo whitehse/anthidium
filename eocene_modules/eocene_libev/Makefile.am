@@ -1,7 +1,7 @@
 h_sources = eocene_libev.h eocene_libev_base.h
 cc_sources = eocene_libev.c
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eonessa -I$(top_srcdir)/eocene
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eocene
 
 pkglibdir = $(libdir)/eocene
 

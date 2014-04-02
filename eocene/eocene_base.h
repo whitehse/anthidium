@@ -33,6 +33,8 @@
 #define EC_CANT_DLCLOSE         -9
 #define EC_CANT_DLEXIT          -10
 
+#define EC_CAP_TYPE_PCAP 1
+
 #ifndef MODULE_PATH_ENV
 #  define EOCENE_PLUGIN_PATH    "EOCENE_PLUGIN_PATH"
 #endif
@@ -127,5 +129,6 @@ struct ec_state {
 
 typedef int (*eocene_init)(config_setting_t *config, struct ec_state *_state);
 typedef int (*eocene_wireline_parse)(const char* buf, unsigned n, int capture_type);
+void dump_buffer(const char* buf, unsigned n);
 
 #endif // EOCENE_BASE_H

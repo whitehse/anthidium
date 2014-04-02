@@ -59,5 +59,9 @@ struct ec_stp {
     int forward_delay;
 };
 
+typedef int (*eocene_stp_listener)(struct ec_stp *stp);
+typedef int (*eocene_stp_register_listener)(void *callback);
+
+#define EC_STP_MAX_LISTENERS          128
 
 #endif // EOCENE_STP_BASE_H

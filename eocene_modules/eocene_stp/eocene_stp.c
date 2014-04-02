@@ -12,6 +12,14 @@
 
 struct ec_state *state;
 
+eocene_stp_listener *stp_listeners[EC_STP_MAX_LISTENERS];
+int number_of_stp_listeners = 0;
+
+int register_listener(void *callback) {
+    stp_listeners[number_of_stp_listeners] = callback;
+    number_of_stp_listeners += 1;
+}
+
 int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
     struct ec_stp *stp;
     stp = (struct ec_stp*)malloc(sizeof(struct ec_stp));
@@ -50,6 +58,14 @@ int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
     stp->hello_time = ntohs(*(uint16_t *)(buf+31));
     stp->forward_delay = ntohs(*(uint16_t *)(buf+33));
     fprintf (stderr, "  forward delay is %d.\n", stp->forward_delay);
+
+    // Further processing
+    int i;
+    for (i=0; i<number_of_stp_listeners; i++) {
+        eocene_stp_listener listener_cb = stp_listeners[i];
+        listener_cb (stp);
+    }
+
 }
 
 int init(config_setting_t *config, struct ec_state *_state) {

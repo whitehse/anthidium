@@ -39,7 +39,7 @@
 #  define EOCENE_PLUGIN_PATH    "EOCENE_PLUGIN_PATH"
 #endif
 
-#define LIB_DIR         PACKAGE_PKG_LIB_DIR
+#define EC_LIB_DIR         PACKAGE_PKG_LIB_DIR
 
 #define MAX_NUM_OF_SUBMODULES   128
 

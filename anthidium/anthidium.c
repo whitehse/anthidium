@@ -71,15 +71,16 @@ int main (int argc, char **argv) {
     int error = 0;
     char *config_file = NULL;
     struct config_t cfg;
-    char *module_path = NULL;
+    char *eocene_module_path = NULL;
+    char *eonessa_module_path = NULL;
     config_setting_t *modules;
-    config_setting_t *sources;
-    config_setting_t *wireline_modules;
+    config_setting_t *eocene_sources;
+    config_setting_t *eocene_wireline_modules;
     char *data_store_module = NULL;
     char *event_module = NULL;
     char *output_module = NULL;
-    int number_of_modules = 0;
-    int number_of_sources = 0;
+    int number_of_eocene_modules = 0;
+    int number_of_eocene_sources = 0;
     int result;
     int i;
 
@@ -160,9 +161,9 @@ int main (int argc, char **argv) {
 
     state->cfg = &cfg;
 
-    config_lookup_string(&cfg, "module_path", &module_path);
-    if (module_path) {
-        error = set_eocene_module_search_path (module_path);
+    config_lookup_string(&cfg, "eocene_module_path", &eocene_module_path);
+    if (eocene_module_path) {
+        error = set_eocene_module_search_path (eocene_module_path);
         if (error) {
             fprintf(stderr, "Unable to set module search path.\n");
             exit(EXIT_FAILURE);
@@ -171,20 +172,20 @@ int main (int argc, char **argv) {
         /* If not specified, it should default to the correct location */
     }
 
-    modules = config_lookup(&cfg, "load_modules");
+    modules = config_lookup(&cfg, "load_eocene_modules");
     if (!modules) {
-        fprintf(stderr, "configuration item 'load_modules' could not be found.\n");
+        fprintf(stderr, "configuration item 'load_eocene_modules' could not be found.\n");
         config_destroy(&cfg);
         exit(EXIT_FAILURE);
     }
     if (config_setting_is_array(modules) != CONFIG_TRUE) {
-        fprintf(stderr, "configuration item 'load_modules' is not an array.\n");
+        fprintf(stderr, "configuration item 'load_eocene_modules' is not an array.\n");
         config_destroy(&cfg);
         exit(EXIT_FAILURE);
     }
-    number_of_modules = config_setting_length(modules);
+    number_of_eocene_modules = config_setting_length(modules);
 
-    for (i=0; i<number_of_modules; i++) {
+    for (i=0; i<number_of_eocene_modules; i++) {
         const char *module = config_setting_get_string_elem(modules, i);
         error = load_eocene_module(module);
         if (error) {
@@ -229,24 +230,24 @@ int main (int argc, char **argv) {
     result = find_eocene_symbol (event_module, "ec_watch_fd_for_reads_and_writes", &(state->watch_fd_for_reads_and_writes));
     result = find_eocene_symbol (event_module, "ec_run", &(state->run));
 
-    wireline_modules = config_lookup(&cfg, "wireline_modules");
-    if (!wireline_modules) {
-        fprintf(stderr, "configuration item 'wireline_modules' could not be found.\n");
+    eocene_wireline_modules = config_lookup(&cfg, "eocene_wireline_modules");
+    if (!eocene_wireline_modules) {
+        fprintf(stderr, "configuration item 'eocene_wireline_modules' could not be found.\n");
         exit(EXIT_FAILURE);
     }
-    if (config_setting_is_array(wireline_modules) != CONFIG_TRUE) {
-        fprintf(stderr, "configuration item 'wireline_modules' is not an array.\n");
+    if (config_setting_is_array(eocene_wireline_modules) != CONFIG_TRUE) {
+        fprintf(stderr, "configuration item 'eocene_wireline_modules' is not an array.\n");
         config_destroy(&cfg);
         exit(EXIT_FAILURE);
     }
-    number_of_wireline_modules = config_setting_length(wireline_modules);
+    number_of_wireline_modules = config_setting_length(eocene_wireline_modules);
 
     wireline_callbacks = malloc((number_of_wireline_modules) * sizeof(eocene_wireline_parse));
     for (i=0; i<number_of_wireline_modules; i++) {
         eocene_init eocene_init_ref;
         eocene_wireline_parse eocene_wireline_parse_ref;
         config_setting_t *module_config;
-        const char *module = config_setting_get_string_elem(wireline_modules, i);
+        const char *module = config_setting_get_string_elem(eocene_wireline_modules, i);
 //        result = find_eocene_symbol (module, "init", &eocene_init_ref);
         result = find_eocene_symbol (module, "parse", &eocene_wireline_parse_ref);
         if (result) {
@@ -265,18 +266,18 @@ int main (int argc, char **argv) {
     
     result = find_eocene_symbol (output_module, "print", &(state->printer));
 
-    sources = config_lookup(&cfg, "sources");
-    if (!sources) {
-        fprintf(stderr, "configuration item 'sources' could not be found.\n");
+    eocene_sources = config_lookup(&cfg, "eocene_sources");
+    if (!eocene_sources) {
+        fprintf(stderr, "configuration item 'eocene_sources' could not be found.\n");
         exit(EXIT_FAILURE);
     }
-    if (config_setting_is_list(sources) != CONFIG_TRUE) {
-        fprintf(stderr, "configuration item 'sources' is not a list.\n");
+    if (config_setting_is_list(eocene_sources) != CONFIG_TRUE) {
+        fprintf(stderr, "configuration item 'eocene_sources' is not a list.\n");
         exit(EXIT_FAILURE);
     }
-    number_of_sources = config_setting_length(sources);
+    number_of_eocene_sources = config_setting_length(eocene_sources);
 
-    for (i=0; i<number_of_sources; i++) {
+    for (i=0; i<number_of_eocene_sources; i++) {
         const char *dev = NULL;
         const char *type = NULL;
         const char *filter_exp = NULL;
@@ -287,7 +288,7 @@ int main (int argc, char **argv) {
         config_setting_t *source;
         char *source_string;
 
-        source = config_setting_get_elem(sources, i);
+        source = config_setting_get_elem(eocene_sources, i);
 
         if (! config_setting_lookup_string(source, "type", &type)) {
             fprintf(stderr, "Capture source did not specify a required type.\n");

@@ -1,6 +1,11 @@
 h_sources = eocene.h eocene_base.h eocene_util.h
 cc_sources = eocene.c eocene_util.c
 
+SUBDIRS = eocene_dhcpv4 eocene_http eocene_sockets eocene_bridge_network eocene_ethernet eocene_ipv4 eocene_stp
+
+#Distribute these directories:
+DIST_SUBDIRS = eocene_dhcpv4 eocene_http eocene_sockets eocene_bridge_network eocene_ethernet eocene_ipv4 eocene_stp
+
 library_includedir=$(includedir)/eocene
 library_include_HEADERS = $(h_sources)
 

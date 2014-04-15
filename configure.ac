@@ -83,19 +83,21 @@ dnl Generates Makefile's, configuration files and scripts
 dnl -----------------------------------------------
 
 AC_OUTPUT(Makefile \
+          eosimias/Makefile \
+          eosimias/eosimias_bdb/Makefile \
+          eosimias/eosimias_libev/Makefile \
           eocene-1.0.pc \
           eocene/Makefile \
-          eocene_modules/Makefile
-          eocene_modules/eocene_sockets/Makefile \
-          eocene_modules/eocene_dhcpv4/Makefile \
-          eocene_modules/eocene_http/Makefile \
-          eocene_modules/eocene_bdb/Makefile \
-          eocene_modules/eocene_libev/Makefile \
-          eocene_modules/eocene_ethernet/Makefile \
-          eocene_modules/eocene_ipv4/Makefile \
-          eocene_modules/eocene_stp/Makefile \
-          eocene_modules/eocene_bridge_network/Makefile \
-          eocene_modules/eocene_output_text/Makefile \
+          eocene/eocene_sockets/Makefile \
+          eocene/eocene_dhcpv4/Makefile \
+          eocene/eocene_http/Makefile \
+          eocene/eocene_bdb/Makefile \
+          eocene/eocene_libev/Makefile \
+          eocene/eocene_ethernet/Makefile \
+          eocene/eocene_ipv4/Makefile \
+          eocene/eocene_stp/Makefile \
+          eocene/eocene_bridge_network/Makefile \
+          eocene/eocene_output_text/Makefile \
 		  anthidium/Makefile \
 )
 

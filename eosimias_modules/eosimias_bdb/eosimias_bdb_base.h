@@ -17,19 +17,9 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef EOCENE_BDB_BASE_H
-#define EOCENE_BDB_BASE_H
-
-/* Return types. But only use these internally! */
-/* Use, for example, EC_OK, when returning from public
- * functions. */
-#define EC_BDB_OK               0 /* successful result */
-#define EC_BDB_FAIL            -1 /* generic failure */
-#define EC_BDB_NOMEM           -2 /* memory shortage failure */
-#define EC_BDB_BUFOVER         -3 /* overflowed buffer */
-#define EC_BDB_BADPARAM        -4 /* invalid parameter supplied */
-#define EC_BDB_BAD_DATA        -5 /* Invalid Packet */
+#ifndef EOSIMIAS_BDB_BASE_H
+#define EOSIMIAS_BDB_BASE_H
 
 int init(config_setting_t *config);
 
-#endif // EOCENE_BDB_BASE_H
+#endif // EOSIMIAS_BDB_BASE_H

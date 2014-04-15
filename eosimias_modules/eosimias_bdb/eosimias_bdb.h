@@ -17,12 +17,12 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef EOCENE_BDB_H
-#define EOCENE_BDB_H
+#ifndef EOSIMIAS_BDB_H
+#define EOSIMIAS_BDB_H
 
 /*This is a main header - it inludes everything else.*/
 
-#include "eocene_bdb_base.h"
+#include "eosimias_bdb_base.h"
 
-#endif // EOCENE_BDB_H
+#endif // EOSIMIAS_BDB_H
 

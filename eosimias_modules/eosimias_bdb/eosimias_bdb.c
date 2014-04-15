@@ -4,17 +4,16 @@
 #include <stdint.h>
 #include <libconfig.h>
 #include <db.h>
-#include <eocene.h>
-#include "eocene_bdb.h"
+#include <eosimias.h>
+#include "eosimias_bdb.h"
 
-#define init eocene_bdb_LTX_init
-#define parse eocene_bdb_LTX_parse
+#define init eosimias_bdb_LTX_init
 
 config_setting_t *config_ref;
 
 int init(config_setting_t *config) {
     config_ref = config;
-    return EC_OK;
+    return ES_OK;
 }
 
 int open_table (void **db, char *table) {
@@ -34,7 +33,7 @@ int open_table (void **db, char *table) {
 
     *db = dbp;
 
-    return EC_OK;
+    return ES_OK;
 }
 
 int put (void **db, void *key, int key_len, void *value, int value_len) {
@@ -59,7 +58,7 @@ int put (void **db, void *key, int key_len, void *value, int value_len) {
         exit(1);
     }
 
-    return EC_OK;
+    return ES_OK;
 }
 
 int get (void **db, void *key, int key_len, void *value, int value_len) {
@@ -78,7 +77,7 @@ int get (void **db, void *key, int key_len, void *value, int value_len) {
     value = db_data.data;
     value_len = db_data.size;
 
-    return EC_OK;
+    return ES_OK;
 }
 
 int del (void **db, void *key, int key_len, void *value, int value_len) {

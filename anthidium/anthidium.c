@@ -10,12 +10,11 @@
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
-#include <eocene/eocene.h>
-#include <eocene/eocene_util.h>
+#include <eosimias/eosimias.h>
+#include <eosimias/eosimias_util.h>
 #include "anthidium.h"
 
-struct ec_state *_ec_state;
-struct en_state *_en_state;
+struct es_state *state;
 eocene_wireline_parse *wireline_callbacks;
 int number_of_wireline_modules = 0;
 lua_State* master_lua_state;
@@ -29,7 +28,7 @@ static struct option const long_options[] =
     {NULL, 0, NULL, 0}
 };
 
-int local_timer_cb (void* data, struct ec_timer *timer) {
+int local_timer_cb (void* data, struct es_timer *timer) {
     fprintf (stderr, "local_timer_cb was called.\n");
 }
 
@@ -50,7 +49,7 @@ int pcap_cb (pcap_t *handle, int mask) {
         void **test2 = NULL;
         test2 = &test;
 
-        _ec_state->new_timer (test2, NULL, 10, local_timer_cb);
+        state->new_timer (test2, NULL, 10, local_timer_cb);
     }
 
     dump_buffer(frame, header.len);
@@ -85,13 +84,13 @@ int main (int argc, char **argv) {
     int result;
     int i;
 
-    _ec_state = (struct ec_state*)malloc(sizeof(struct ec_state));
-    memset(_ec_state, 0, sizeof (struct ec_state));
+    state = (struct es_state*)malloc(sizeof(struct es_state));
+    memset(state, 0, sizeof (struct state));
 
     master_lua_state = luaL_newstate();
     luaL_openlibs (master_lua_state);
 
-    _ec_state->master_lua_state = master_lua_state;
+    state->master_lua_state = master_lua_state;
 
     /*luaopen_base (master_lua_state); 
     luaopen_package (master_lua_state);
@@ -160,7 +159,7 @@ int main (int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    _ec_state->cfg = &cfg;
+    state->cfg = &cfg;
 
     config_lookup_string(&cfg, "eocene_module_path", &eocene_module_path);
     if (eocene_module_path) {
@@ -201,7 +200,7 @@ int main (int argc, char **argv) {
         //module_config = config_setting_get_string_elem(modules, i);
         fprintf (stderr, "Getting ready to find the init function for module %s\n", module);
         result = find_eocene_symbol (module, "init", &eocene_init_ref);
-        result = (*eocene_init_ref) (&module_config, _ec_state);
+        result = (*eocene_init_ref) (&module_config, state);
     }
 
     config_lookup_string(&cfg, "data_store_module", &data_store_module);
@@ -210,11 +209,11 @@ int main (int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     
-    result = find_eocene_symbol (data_store_module, "open_table", &(_ec_state->open_table));
-    result = find_eocene_symbol (data_store_module, "get", &(_ec_state->get));
-    result = find_eocene_symbol (data_store_module, "put", &(_ec_state->put));
-    result = find_eocene_symbol (data_store_module, "del", &(_ec_state->del));
-    result = find_eocene_symbol (data_store_module, "close_table", &(_ec_state->close_table));
+    result = find_eocene_symbol (data_store_module, "open_table", &(state->open_table));
+    result = find_eocene_symbol (data_store_module, "get", &(state->get));
+    result = find_eocene_symbol (data_store_module, "put", &(state->put));
+    result = find_eocene_symbol (data_store_module, "del", &(state->del));
+    result = find_eocene_symbol (data_store_module, "close_table", &(state->close_table));
 
     config_lookup_string(&cfg, "event_module", &event_module);
     if (!event_module) {
@@ -222,14 +221,14 @@ int main (int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     
-    result = find_eocene_symbol (event_module, "ec_new_timer", &(_ec_state->new_timer));
-    result = find_eocene_symbol (event_module, "ec_update_timeout", &(_ec_state->update_timeout));
-    result = find_eocene_symbol (event_module, "ec_update_associated_data", &(_ec_state->update_associated_data));
-    result = find_eocene_symbol (event_module, "ec_delete_timer", &(_ec_state->delete_timer));
-    result = find_eocene_symbol (event_module, "ec_watch_fd_for_reads", &(_ec_state->watch_fd_for_reads));
-    result = find_eocene_symbol (event_module, "ec_watch_fd_for_writes", &(_ec_state->watch_fd_for_writes));
-    result = find_eocene_symbol (event_module, "ec_watch_fd_for_reads_and_writes", &(_ec_state->watch_fd_for_reads_and_writes));
-    result = find_eocene_symbol (event_module, "ec_run", &(_ec_state->run));
+    result = find_eocene_symbol (event_module, "es_new_timer", &(state->new_timer));
+    result = find_eocene_symbol (event_module, "es_update_timeout", &(state->update_timeout));
+    result = find_eocene_symbol (event_module, "es_update_associated_data", &(state->update_associated_data));
+    result = find_eocene_symbol (event_module, "es_delete_timer", &(state->delete_timer));
+    result = find_eocene_symbol (event_module, "es_watch_fd_for_reads", &(state->watch_fd_for_reads));
+    result = find_eocene_symbol (event_module, "es_watch_fd_for_writes", &(state->watch_fd_for_writes));
+    result = find_eocene_symbol (event_module, "es_watch_fd_for_reads_and_writes", &(state->watch_fd_for_reads_and_writes));
+    result = find_eocene_symbol (event_module, "es_run", &(state->run));
 
     eocene_wireline_modules = config_lookup(&cfg, "eocene_wireline_modules");
     if (!eocene_wireline_modules) {
@@ -254,7 +253,7 @@ int main (int argc, char **argv) {
         if (result) {
             fprintf (stderr, "Danger Will Robinson!\n");
         }
-//        result = (*eocene_init_ref) (&module_config, _ec_state);
+//        result = (*eocene_init_ref) (&module_config, state);
         wireline_callbacks[i] = eocene_wireline_parse_ref;
     }
     //wireline_callbacks[i+1] = NULL;
@@ -265,7 +264,7 @@ int main (int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     
-    result = find_eocene_symbol (output_module, "print", &(_ec_state->printer));
+    result = find_eocene_symbol (output_module, "print", &(state->printer));
 
     eocene_sources = config_lookup(&cfg, "eocene_sources");
     if (!eocene_sources) {
@@ -339,10 +338,10 @@ int main (int argc, char **argv) {
         }
 
         int pcap_fd = pcap_fileno(handle);
-        _ec_state->watch_fd_for_reads(pcap_fd, handle, pcap_cb);
+        state->watch_fd_for_reads(pcap_fd, handle, pcap_cb);
     }
 
-    _ec_state->run();
+    state->run();
 
     return(0);
 }

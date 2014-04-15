@@ -17,12 +17,12 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef EOCENE_LIBEV_H
-#define EOCENE_LIBEV_H
+#ifndef EOSIMIAS_LIBEV_H
+#define EOSIMIAS_LIBEV_H
 
 /*This is a main header - it inludes everything else.*/
 
-#include "eocene_libev_base.h"
+#include "eosimias_libev_base.h"
 
-#endif // EOCENE_LIBEV_H
+#endif // EOSIMIAS_LIBEV_H
 

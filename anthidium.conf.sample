@@ -1,8 +1,14 @@
+eosimias_module_path = "/usr/lib/eosimias";
+eosimias_data_store_module = "eosimias_bdb";
+eosimias_event_module = "eosimias_libev";
+
 eocene_module_path = "/usr/lib/eocene/";
 load_eocene_modules = [ "eocene_libev", "eocene_bdb" , "eocene_output_text", "eocene_ethernet", "eocene_ipv4", "eocene_stp", "eocene_bridge_network" ];
+eocene_wireline_modules = [ "eocene_ethernet" ];
 
-eocene_module_path = "/usr/lib/eonessa/";
+eonessa_module_path = "/usr/lib/eonessa/";
 load_eonessa_modules = [ "eonessa_sysdescr" ];
+eonessa_snmp_modules = 
 
 eocene_sources = ( {
                 type = "pcap-live";
@@ -22,11 +28,6 @@ servers = ( {
             }
 );
 
-eocene_wireline_modules = [ "eocene_ethernet" ];
-
-data_store_module = "eocene_bdb";
-
-event_module = "eocene_libev";
 
 output_module = "eocene_output_text";
 

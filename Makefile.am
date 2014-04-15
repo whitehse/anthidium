@@ -8,7 +8,7 @@ SUBDIRS = libltdl eocene eocene_modules eonessa eonessa_modules eosimias anthidi
 DIST_SUBDIRS = libltdl eocene eocene_modules eonessa anthidium
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = eocene-1.0.pc
+pkgconfig_DATA = eocene-1.0.pc 
 
 pkglibdir = $(libdir)/eocene
 

@@ -15,6 +15,7 @@
 #include "anthidium.h"
 
 struct ec_state *_ec_state;
+struct en_state *_en_state;
 eocene_wireline_parse *wireline_callbacks;
 int number_of_wireline_modules = 0;
 lua_State* master_lua_state;

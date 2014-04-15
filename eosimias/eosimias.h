@@ -1,5 +1,5 @@
 
-/*
+/* 
  * Copyright (C) 2014 Dan White
  *
  * This library is free software; you can redistribute it and/or
@@ -17,7 +17,13 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef EOCENE_UTIL_H
-#define EOCENE_UTIL_H
+#ifndef EOSIMIAS_H
+#define EOSIMIAS_H
 
-#endif // EOCENE_UTIL_H
+/*This is a main header - it inludes everything else.*/
+
+#include <libconfig.h>
+#include "eosimias_base.h"
+
+#endif // EOSIMIAS_H
+

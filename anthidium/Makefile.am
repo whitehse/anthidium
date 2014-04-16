@@ -8,9 +8,11 @@ pkglibdir = $(libdir)/eocene
 
 AM_CPPFLAGS = \
     -I$(top_srcdir) \
+    -I$(top_srcdir)/eosimias \
+    -I$(top_srcdir)/eocene \
     -DPACKAGE_PKG_LIB_DIR=\""$(pkglibdir)"\" \
     -DPACKAGE_SYSCONF_DIR=\""$(sysconfdir)"\" \
-    -I$(top_srcdir) $(LIBCONFIG_CFLAGS) $(LUA_CFLAGS)
+    $(LIBCONFIG_CFLAGS) $(LUA_CFLAGS)
 
 #    -DPACKAGE_LIBEXEC_DIR=\""$(libexecdir)"\" \
 #    -DPACKAGE_DATA_DIR=\""$(datadir)"\" \
@@ -20,5 +22,5 @@ AM_CPPFLAGS = \
 #    -DPACKAGE_SCRIPT_DIR=\""$(libexecdir)/scripts"\"
 
 anthidium_SOURCES = $(h_sources) $(cc_sources)
-anthidium_LDADD = $(INTI_LIBS) -L../eocene/.libs -leocene -lpcap $(LIBCONFIG_LIBS) $(LUA_LIBS)
+anthidium_LDADD = $(INTI_LIBS) -L$(top_srcdir)/eosimias/.libs -leosimias -L$(top_srcdir)/eocene/.libs -leocene -lpcap $(LIBCONFIG_LIBS) $(LUA_LIBS)
 #select_LDFLAGS = -static

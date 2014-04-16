@@ -1,7 +1,7 @@
 h_sources = eocene_output_text.h eocene_output_text_base.h
 cc_sources = eocene_output_text.c
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eocene -I$(top_srcdir)/eocene_modules/eocene_ethernet
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eosimias -I$(top_srcdir)/eocene
 
 pkglibdir = $(libdir)/eocene
 

@@ -1,7 +1,7 @@
 h_sources = eocene_dhcpv4.h eocene_dhcpv4_base.h eocene_dhcpv4_util.h
 cc_sources = eocene_dhcpv4.c eocene_dhcpv4_util.c
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eocene
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eosimias -I$(top_srcdir)/eocene
 
 pkglibdir = $(libdir)/eocene
 

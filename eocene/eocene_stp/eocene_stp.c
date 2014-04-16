@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <libconfig.h>
+#include <eosimias.h>
 #include <eocene.h>
 #include "eocene_ethernet.h"
 #include "eocene_stp.h"
@@ -10,7 +11,7 @@
 #define init eocene_stp_LTX_init
 #define parse eocene_stp_LTX_parse
 
-struct ec_state *state;
+struct es_state *state;
 
 eocene_stp_listener *stp_listeners[EC_STP_MAX_LISTENERS];
 int number_of_stp_listeners = 0;
@@ -30,7 +31,7 @@ int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
         fprintf (stderr, "  Frame is an 802.1d STP packet.\n");
     } else {
         fprintf (stderr, "  Frame is not an 802.1d STP packet.\n");
-        return EC_OK;
+        return ES_OK;
     }
 
     if (frame->payload_length < 35) {
@@ -45,7 +46,7 @@ int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
     stp->flags = *(uint8_t *)(buf+4);
     stp->root_bridge_priority = (*(uint8_t *)(buf+5) >> 4) * 4096;
     fprintf (stderr, "  root bridge priority is %d.\n", stp->root_bridge_priority);
-    state->printer("The MFin root bridge priority is ...\n", 0);
+//    state->printer("The MFin root bridge priority is ...\n", 0);
     stp->root_bridge_system_id_extension = ntohs((*(uint16_t *)(buf+5))) & 0x0fff;
     memcpy (stp->root_bridge_mac, buf+7, 6);
     stp->root_path_cost = ntohl(*(uint32_t *)(buf+13));
@@ -68,7 +69,7 @@ int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
 
 }
 
-int init(config_setting_t *config, struct ec_state *_state) {
+int init(config_setting_t *config, struct es_state *_state) {
     eocene_ethernet_register_listener register_function;
     int result;
     state = _state;
@@ -79,5 +80,5 @@ int init(config_setting_t *config, struct ec_state *_state) {
     config_lookup_string(state->cfg, "module_path", &module_path);
     fprintf (stderr, "module path (in the config) is %s.\n", module_path);
 
-    return EC_OK;
+    return ES_OK;
 }

@@ -91,13 +91,11 @@ AC_OUTPUT(Makefile \
           eocene/eocene_sockets/Makefile \
           eocene/eocene_dhcpv4/Makefile \
           eocene/eocene_http/Makefile \
-          eocene/eocene_bdb/Makefile \
-          eocene/eocene_libev/Makefile \
           eocene/eocene_ethernet/Makefile \
           eocene/eocene_ipv4/Makefile \
           eocene/eocene_stp/Makefile \
           eocene/eocene_bridge_network/Makefile \
-          eocene/eocene_output_text/Makefile \
+          eonessa/Makefile \
 		  anthidium/Makefile \
 )
 

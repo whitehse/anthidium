@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <libconfig.h>
+#include <eosimias.h>
 #include <eocene.h>
 #include "eocene_ethernet.h"
 #include "eocene_ipv4.h"
@@ -41,21 +42,21 @@ int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
     ipv4->packet_size = frame->payload_length;
 
     if (ipv4->packet_size < EC_IPV4_MIN_PACKET_SIZE || ipv4->packet_size > EC_IPV4_MAX_PACKET_SIZE) {
-        return EC_BADPARAM;
+        return ES_BADPARAM;
     }
 
     /* TODO: make sure this is an IPv4 packet */
     ipv4->version = *(uint8_t *)(buf+offset) >> 4;
     if (ipv4->version != 4) {
-        return EC_BADPARAM;
+        return ES_BADPARAM;
     }
 
-    if (offset+20 > ipv4->packet_size) return EC_BADPARAM;
+    if (offset+20 > ipv4->packet_size) return ES_BADPARAM;
 
     ipv4->header_length = *(uint8_t *)(buf+offset) & 0x0f;
     if (ipv4->header_length < 5 ||
         ipv4->header_length * 4 > ipv4->packet_size) {
-        return EC_BADPARAM;
+        return ES_BADPARAM;
     }
     ipv4->payload_length = ipv4->packet_size - ipv4->header_length*4;
     if (ipv4->payload_length > 0) {
@@ -67,7 +68,7 @@ int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
     ipv4->ecn = *(uint8_t *)(buf+offset+1) & 0x03;
     ipv4->total_length = ntohs(*(uint16_t *)(buf+offset+2));
     if (ipv4->payload_length != ipv4->total_length && (flags & EC_IPV4_PARSE_FAIL_ON_INVALID_LENGTH)) {
-        return EC_BADPARAM;
+        return ES_BADPARAM;
     }
     ipv4->identification = ntohs(*(uint16_t *)(buf+offset+4));
     ipv4->flags = *(uint8_t *)(buf+offset+6) & 0x07;
@@ -79,7 +80,7 @@ int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
     ipv4->destination_ip = ntohl(*(uint32_t *)(buf+offset+16));
     offset += 20;
 
-    if (offset+1 > ipv4->packet_size) return EC_BADPARAM;
+    if (offset+1 > ipv4->packet_size) return ES_BADPARAM;
 
     for (i=0; ipv4->header_length>5 && i < EC_IPV4_MAX_HEADERS; i++) {
         ipv4->number_of_options += 1;
@@ -113,17 +114,17 @@ int my_eocene_ethernet_listener(struct ec_ethernet *frame) {
                 offset += 1;
                 break;
             default: /* It's assumed all other options include their own length */
-                if (offset+1 > ipv4->header_length) return EC_BADPARAM;
+                if (offset+1 > ipv4->header_length) return ES_BADPARAM;
                 ipv4->header_options[i].length = *(uint8_t *)(buf+offset+1);
                 offset += 1;
-                if (offset+1+(ipv4->header_options[i].length-2) > ipv4->header_length) return EC_BADPARAM;
+                if (offset+1+(ipv4->header_options[i].length-2) > ipv4->header_length) return ES_BADPARAM;
                 ipv4->header_options[i].data_pointer = buf+offset+1;
                 offset += 1 + (ipv4->header_options[i].length-2);
                 break;
             /* end of default */
         }
         if (offset > ipv4->header_length*4) {
-            return EC_BADPARAM;
+            return ES_BADPARAM;
         }
         if (offset == ipv4->header_length*4) {
             goto out;
@@ -160,16 +161,16 @@ out:
                 fprintf (stderr, "    length = %0d\n", ipv4->header_options[i].length);
             }
 
-    return EC_OK;
+    return ES_OK;
 }
 
-int init(config_setting_t *config, struct ec_state *_state) {
+int init(config_setting_t *config, struct es_state *_state) {
     fprintf (stderr, "ipv4's init function was called.\n");
     eocene_ethernet_register_listener register_function;
     int result;
     result = find_eocene_symbol ("eocene_ethernet", "register_listener", &(register_function));
     (*register_function) (my_eocene_ethernet_listener);
-    return EC_OK;
+    return ES_OK;
 }
 
 

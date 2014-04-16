@@ -28,7 +28,7 @@
 #define ES_CANT_DLINIT_REASON           "Unable to initialize dl library"
 #define ES_CANT_DLSETSEARCHPATH_REASON  "Unable to set dl search patch"
 #define ES_CANT_DLOPENEXT_REASON        "Call to dlopenext failed"
-#define ES_CANT_DLSYM                   "Unable to find symbol"
+#define ES_CANT_DLSYM_REASON            "Unable to find symbol"
 #define ES_CANT_DLCLOSE_REASON          "Unable to close dl"
 #define ES_CANT_DLEXIT_REASON           "Call to dlexit failed"
 

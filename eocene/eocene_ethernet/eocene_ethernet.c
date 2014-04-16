@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <libconfig.h>
+#include <eosimias.h>
 #include <eocene.h>
 #include "eocene_ethernet.h"
 
@@ -12,8 +13,8 @@
 eocene_ethernet_listener *ethernet_listeners[EC_ETH_MAX_LISTENERS];
 int number_of_ethernet_listeners = 0;
 
-int init(config_setting_t *config, struct ec_state *_state) {
-    return EC_OK;
+int init(config_setting_t *config, struct es_state *_state) {
+    return ES_OK;
 }
 
 int register_listener(void *callback) {
@@ -313,5 +314,5 @@ out:
         listener_cb (frame);
     }
 
-    return EC_ETH_OK;
+    return ES_OK;
 }

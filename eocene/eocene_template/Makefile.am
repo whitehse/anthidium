@@ -1,7 +1,7 @@
 h_sources = eocene_template.h eocene_template_base.h
 cc_sources = eocene_template.c
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eocene
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eosimias -I$(top_srcdir)/eocene
 
 pkglibdir = $(libdir)/eocene
 

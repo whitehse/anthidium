@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <libconfig.h>
+#include <eosimias.h>
 #include <eocene.h>
 #include "eocene_ethernet.h"
 #include "eocene_stp.h"
@@ -17,7 +18,7 @@ int my_eocene_stp_listener(struct ec_stp *stp) {
     struct ec_bridge_network *bridge_network;
     bridge_network = (struct ec_bridge_network*)malloc(sizeof(struct ec_bridge_network));
     fprintf (stderr, "eocene_bridge_network's stp listener was called.\n");
-    return EC_OK;
+    return ES_OK;
 }
 
 int init(config_setting_t *config, struct ec_state *_state) {
@@ -27,5 +28,5 @@ int init(config_setting_t *config, struct ec_state *_state) {
     result = find_eocene_symbol ("eocene_stp", "register_listener", &(register_function));
     (*register_function) (my_eocene_stp_listener);
 
-    return EC_OK;
+    return ES_OK;
 }

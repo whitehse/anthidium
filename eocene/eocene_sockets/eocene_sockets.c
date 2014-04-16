@@ -3,18 +3,19 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <libconfig.h>
+#include <eosimias.h>
 #include <eocene.h>
 #include "eocene_sockets.h"
 
 #define init eocene_sockets_LTX_init
 #define parse eocene_sockets_LTX_parse
 
-struct ec_state *state;
+struct es_state *state;
 
 void *socket_table_ref;
 void **socket_table_ref_ref;
 
-int init(config_setting_t *config, struct ec_state *_state) {
+int init(config_setting_t *config, struct es_state *_state) {
     
     state = _state;
 
@@ -30,5 +31,5 @@ int init(config_setting_t *config, struct ec_state *_state) {
 //    *val_len_ref = val_len;
 //    (state->put)(socket_table_ref_ref, "test", 4, &val, &val_len);
 
-    return EC_OK;
+    return ES_OK;
 }

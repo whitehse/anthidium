@@ -1,7 +1,7 @@
 h_sources = eocene_ethernet.h eocene_ethernet_base.h eocene_ethernet_ethertypes.h eocene_ethernet_saps.h eocene_ethernet_util.h
 cc_sources = eocene_ethernet.c eocene_ethernet_util.c
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eocene
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/eosimias -I$(top_srcdir)/eocene
 
 pkglibdir = $(libdir)/eocene
 

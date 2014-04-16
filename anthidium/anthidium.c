@@ -10,8 +10,9 @@
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
-#include <eosimias/eosimias.h>
-#include <eosimias/eosimias_util.h>
+#include <eosimias.h>
+#include <eosimias_util.h>
+#include <eocene.h>
 #include "anthidium.h"
 
 struct es_state *state;
@@ -52,7 +53,7 @@ int pcap_cb (pcap_t *handle, int mask) {
         state->new_timer (test2, NULL, 10, local_timer_cb);
     }
 
-    dump_buffer(frame, header.len);
+    //dump_buffer(frame, header.len);
 
     // Further processing
     for (i=0; i<number_of_wireline_modules; i++) {
@@ -85,7 +86,7 @@ int main (int argc, char **argv) {
     int i;
 
     state = (struct es_state*)malloc(sizeof(struct es_state));
-    memset(state, 0, sizeof (struct state));
+    memset(state, 0, sizeof (struct es_state));
 
     master_lua_state = luaL_newstate();
     luaL_openlibs (master_lua_state);
@@ -163,7 +164,7 @@ int main (int argc, char **argv) {
 
     config_lookup_string(&cfg, "eocene_module_path", &eocene_module_path);
     if (eocene_module_path) {
-        error = set_eocene_module_search_path (eocene_module_path);
+        error = set_eosimias_module_search_path (eocene_module_path);
         if (error) {
             fprintf(stderr, "Unable to set module search path.\n");
             exit(EXIT_FAILURE);
@@ -187,20 +188,20 @@ int main (int argc, char **argv) {
 
     for (i=0; i<number_of_eocene_modules; i++) {
         const char *module = config_setting_get_string_elem(modules, i);
-        error = load_eocene_module(module);
+        error = load_eosimias_module(module);
         if (error) {
-            fprintf(stderr, "Unable to load module %s: %s\n", module, eocene_error_string(error));
+            fprintf(stderr, "Unable to load module %s: %s\n", module, eosimias_error_string(error));
             config_destroy(&cfg);
             exit(EXIT_FAILURE);
         } else {
             fprintf(stderr, "Sucessfully loaded module %s.\n", module);
         }
-        eocene_init eocene_init_ref;
+        eosimias_init eosimias_init_ref;
         config_setting_t *module_config;
         //module_config = config_setting_get_string_elem(modules, i);
         fprintf (stderr, "Getting ready to find the init function for module %s\n", module);
-        result = find_eocene_symbol (module, "init", &eocene_init_ref);
-        result = (*eocene_init_ref) (&module_config, state);
+        result = find_eosimias_symbol (module, "init", &eosimias_init_ref);
+        result = (*eosimias_init_ref) (&module_config, state);
     }
 
     config_lookup_string(&cfg, "data_store_module", &data_store_module);
@@ -209,11 +210,11 @@ int main (int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     
-    result = find_eocene_symbol (data_store_module, "open_table", &(state->open_table));
-    result = find_eocene_symbol (data_store_module, "get", &(state->get));
-    result = find_eocene_symbol (data_store_module, "put", &(state->put));
-    result = find_eocene_symbol (data_store_module, "del", &(state->del));
-    result = find_eocene_symbol (data_store_module, "close_table", &(state->close_table));
+    result = find_eosimias_symbol (data_store_module, "open_table", &(state->open_table));
+    result = find_eosimias_symbol (data_store_module, "get", &(state->get));
+    result = find_eosimias_symbol (data_store_module, "put", &(state->put));
+    result = find_eosimias_symbol (data_store_module, "del", &(state->del));
+    result = find_eosimias_symbol (data_store_module, "close_table", &(state->close_table));
 
     config_lookup_string(&cfg, "event_module", &event_module);
     if (!event_module) {
@@ -221,14 +222,14 @@ int main (int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     
-    result = find_eocene_symbol (event_module, "es_new_timer", &(state->new_timer));
-    result = find_eocene_symbol (event_module, "es_update_timeout", &(state->update_timeout));
-    result = find_eocene_symbol (event_module, "es_update_associated_data", &(state->update_associated_data));
-    result = find_eocene_symbol (event_module, "es_delete_timer", &(state->delete_timer));
-    result = find_eocene_symbol (event_module, "es_watch_fd_for_reads", &(state->watch_fd_for_reads));
-    result = find_eocene_symbol (event_module, "es_watch_fd_for_writes", &(state->watch_fd_for_writes));
-    result = find_eocene_symbol (event_module, "es_watch_fd_for_reads_and_writes", &(state->watch_fd_for_reads_and_writes));
-    result = find_eocene_symbol (event_module, "es_run", &(state->run));
+    result = find_eosimias_symbol (event_module, "es_new_timer", &(state->new_timer));
+    result = find_eosimias_symbol (event_module, "es_update_timeout", &(state->update_timeout));
+    result = find_eosimias_symbol (event_module, "es_update_associated_data", &(state->update_associated_data));
+    result = find_eosimias_symbol (event_module, "es_delete_timer", &(state->delete_timer));
+    result = find_eosimias_symbol (event_module, "es_watch_fd_for_reads", &(state->watch_fd_for_reads));
+    result = find_eosimias_symbol (event_module, "es_watch_fd_for_writes", &(state->watch_fd_for_writes));
+    result = find_eosimias_symbol (event_module, "es_watch_fd_for_reads_and_writes", &(state->watch_fd_for_reads_and_writes));
+    result = find_eosimias_symbol (event_module, "es_run", &(state->run));
 
     eocene_wireline_modules = config_lookup(&cfg, "eocene_wireline_modules");
     if (!eocene_wireline_modules) {
@@ -244,16 +245,16 @@ int main (int argc, char **argv) {
 
     wireline_callbacks = malloc((number_of_wireline_modules) * sizeof(eocene_wireline_parse));
     for (i=0; i<number_of_wireline_modules; i++) {
-        eocene_init eocene_init_ref;
+        eosimias_init eosimias_init_ref;
         eocene_wireline_parse eocene_wireline_parse_ref;
         config_setting_t *module_config;
         const char *module = config_setting_get_string_elem(eocene_wireline_modules, i);
-//        result = find_eocene_symbol (module, "init", &eocene_init_ref);
-        result = find_eocene_symbol (module, "parse", &eocene_wireline_parse_ref);
+//        result = find_eocene_symbol (module, "init", &eosimias_init_ref);
+        result = find_eosimias_symbol (module, "parse", &eocene_wireline_parse_ref);
         if (result) {
             fprintf (stderr, "Danger Will Robinson!\n");
         }
-//        result = (*eocene_init_ref) (&module_config, state);
+//        result = (*eosimias_init_ref) (&module_config, state);
         wireline_callbacks[i] = eocene_wireline_parse_ref;
     }
     //wireline_callbacks[i+1] = NULL;
@@ -264,7 +265,7 @@ int main (int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
     
-    result = find_eocene_symbol (output_module, "print", &(state->printer));
+    //result = find_eosimias_symbol (output_module, "print", &(state->printer));
 
     eocene_sources = config_lookup(&cfg, "eocene_sources");
     if (!eocene_sources) {

@@ -32,6 +32,7 @@
 #define ES_CANT_DLSYM           -8
 #define ES_CANT_DLCLOSE         -9
 #define ES_CANT_DLEXIT          -10
+#define ES_BAD_CONFIG           -11
 
 #ifndef MODULE_PATH_ENV
 #  define EOSIMIAS_PLUGIN_PATH    "EOSIMIAS_PLUGIN_PATH"
@@ -113,6 +114,8 @@ struct es_state {
     void* master_lua_state;
 };
 
-typedef int (*eosimias_init)(config_setting_t *config, struct es_state *_state);
+int eosimias_init (struct es_state *state, struct config_t *cfg);
+
+typedef int (*eosimias_module_init)(config_setting_t *config, struct ec_state *_state);
 
 #endif // EOSIMIAS_BASE_H

@@ -31,6 +31,7 @@
 #define ES_CANT_DLSYM_REASON            "Unable to find symbol"
 #define ES_CANT_DLCLOSE_REASON          "Unable to close dl"
 #define ES_CANT_DLEXIT_REASON           "Call to dlexit failed"
+#define ES_BAD_CONFIG_REASON            "Configuration is bad"
 
 char* eosimias_error_string(int error);
 

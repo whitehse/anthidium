@@ -10,6 +10,7 @@ AM_CPPFLAGS = \
     -I$(top_srcdir) \
     -I$(top_srcdir)/eosimias \
     -I$(top_srcdir)/eocene \
+    -I$(top_srcdir)/eonessa \
     -DPACKAGE_PKG_LIB_DIR=\""$(pkglibdir)"\" \
     -DPACKAGE_SYSCONF_DIR=\""$(sysconfdir)"\" \
     $(LIBCONFIG_CFLAGS) $(LUA_CFLAGS)

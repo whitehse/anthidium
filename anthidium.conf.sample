@@ -1,8 +1,8 @@
 /* Utility library which loads modules, schedules events, stores data,
  * and processes lua scripts
  */
-eosimias {
-    module_path = "/usr/lib/eosimias";
+eosimias: {
+    module_path = "eosimias/eosimias_bdb/.libs:eosimias/eosimias_libev/.libs";
     data_store_module = "eosimias_bdb";
     event_module = "eosimias_libev";
 
@@ -17,7 +17,7 @@ eocene: {
     modules = [ "eocene_ethernet",
                     "eocene_ipv4",
                     "eocene_stp",
-                        "eocene_bridge_network",
+                        "eocene_bridge_network"
               ];
 
     wireline_modules = [ "eocene_ethernet" ];
@@ -37,14 +37,14 @@ eocene: {
 /* Discovery, monitoring, and notification library */
 eonessa: {
     snmp_modules = [ "eonessa_snmp_snmpv2_mib",
-                     "sonessa_snmp_if_mib",
+                     "sonessa_snmp_if_mib"
                    ];
     syslog_modules = [ "eonessa_syslog_cisco",
                        "eonessa_syslog_brocade",
-                       "eonessa_syslog_juniper",
+                       "eonessa_syslog_juniper"
                      ];
     notification_modules = [ "eonessa_notification_email",
-                             "eonessa_notification_phonecall",
+                             "eonessa_notification_phonecall"
                            ];
 };
 

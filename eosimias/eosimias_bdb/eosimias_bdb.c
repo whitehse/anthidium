@@ -9,10 +9,8 @@
 
 #define init eosimias_bdb_LTX_init
 
-config_setting_t *config_ref;
-
-int init(config_setting_t *config) {
-    config_ref = config;
+int init(struct es_state *state) {
+    fprintf (stderr, "eosimias's bdb init was entered.\n");
     return ES_OK;
 }
 

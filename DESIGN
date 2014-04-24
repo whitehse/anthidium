@@ -4,7 +4,7 @@ su
 ulimit -c 1000000
 
 #LD_LIBRARY_PATH=eocene_modules/eocene_libev:eocene_modules/eocene_bdb:eocene_modules/eocene_sockets:eocene/.libs:eocene_modules/eocene_ethernet/.libs:eocene_modules/eocene_ipv4/.libs:eocene_modules/eocene_stp/.libs:eocene_modules/eocene_output_text/.libs:eocene_modules/eocene_bridge_network/.libs anthidium/.libs/anthidium -c ../anthidium.conf.sample
-LD_LIBRARY_PATH=eosimias/.libs:eocene/.libs anthidium/.libs/anthidium -c ../anthidium.conf.sample
+LD_LIBRARY_PATH=eosimias/.libs:eocene/.libs:eonessa/.libs anthidium/.libs/anthidium -c ../anthidium.conf.sample
 
 gdb anthidium/.libs/anthidium core.xxxx
 

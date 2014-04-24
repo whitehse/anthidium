@@ -22,6 +22,7 @@
 
 /*This is a main header - it inludes everything else.*/
 
+#include "libconfig.h"
 #include "eosimias_base.h"
 
 #endif // EOSIMIAS_H

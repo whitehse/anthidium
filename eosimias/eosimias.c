@@ -11,12 +11,13 @@
 #include "eosimias.h"
 #include "eosimias_util.h"
 
-int eosimias_init (struct es_state *state, struct config_t *cfg) {
+int eosimias_init (struct es_state **state_ref, struct config_t *cfg) {
     int errors = 0;
     char *module_path = NULL; /* libconfig will manage memory for this */
     char *path = NULL;
     char *data_store_module = NULL;
     char *event_module = NULL;
+    struct es_state *state;
 
     assert (cfg);
 
@@ -24,7 +25,8 @@ int eosimias_init (struct es_state *state, struct config_t *cfg) {
     if (errors)
         return ES_CANT_DLINIT;
 
-    state = (struct es_state*)malloc(sizeof(struct es_state));    
+    (*state_ref) = (struct es_state*)malloc(sizeof(struct es_state));    
+    state = *state_ref;
     memset(state, 0, sizeof (struct es_state));
 
     state->cfg = cfg;
@@ -35,7 +37,7 @@ int eosimias_init (struct es_state *state, struct config_t *cfg) {
         if (config_lookup_string(state->cfg, "eosimias.module_path", &module_path) == CONFIG_FALSE) {
             path = ES_LIB_DIR;
         } else {
-            path = &module_path;
+            path = module_path;
         }
     }
 
@@ -60,7 +62,8 @@ int eosimias_init (struct es_state *state, struct config_t *cfg) {
         return ES_BAD_CONFIG;
     }
     
-    errors = find_eosimias_symbol (data_store_module, "open_table", &(state->open_table));
+    errors = load_eosimias_module(data_store_module);
+    if (!errors) errors = find_eosimias_symbol (data_store_module, "open_table", &(state->open_table));
     if (!errors) errors = find_eosimias_symbol (data_store_module, "get", &(state->get));
     if (!errors) errors = find_eosimias_symbol (data_store_module, "put", &(state->put));
     if (!errors) errors = find_eosimias_symbol (data_store_module, "del", &(state->del));
@@ -73,8 +76,8 @@ int eosimias_init (struct es_state *state, struct config_t *cfg) {
 
     eosimias_module_init eosimias_module_init_ref;
     fprintf (stderr, "Getting ready to find the init function for module %s\n", data_store_module);
-    errors = find_eosimias_symbol (module, "init", &eosimias_module_init_ref);
-    if (!errors) errors = (*eosimias_module_init_ref) (state->cfg, state);
+    errors = find_eosimias_symbol (data_store_module, "init", &eosimias_module_init_ref);
+    if (!errors) errors = (*eosimias_module_init_ref) (state);
 
     if (errors) {
         free (state);
@@ -88,7 +91,8 @@ int eosimias_init (struct es_state *state, struct config_t *cfg) {
         return ES_BAD_CONFIG;
     }
     
-    errors = find_eosimias_symbol (event_module, "es_new_timer", &(state->new_timer));
+    errors = load_eosimias_module(event_module);
+    if (!errors) errors = find_eosimias_symbol (event_module, "es_new_timer", &(state->new_timer));
     if (!errors) errors = find_eosimias_symbol (event_module, "es_update_timeout", &(state->update_timeout));
     if (!errors) errors = find_eosimias_symbol (event_module, "es_update_associated_data", &(state->update_associated_data));
     if (!errors) errors = find_eosimias_symbol (event_module, "es_delete_timer", &(state->delete_timer));
@@ -102,8 +106,8 @@ int eosimias_init (struct es_state *state, struct config_t *cfg) {
     }
 
     fprintf (stderr, "Getting ready to find the init function for module %s\n", event_module);
-    errors = find_eosimias_symbol (module, "init", &eosimias_module_init_ref);
-    if (!errors) errors = (*eosimias_module_init_ref) (state->cfg, state);
+    errors = find_eosimias_symbol (event_module, "init", &eosimias_module_init_ref);
+    if (!errors) errors = (*eosimias_module_init_ref) (state);
 
     if (errors) {
         free (state);

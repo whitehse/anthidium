@@ -14,7 +14,8 @@ struct ev_loop *loop = NULL;
 struct es_timer_list *timer_list_head;
 struct es_timer_list *timer_list_tail;
 
-int init(config_setting_t *config, struct es_state *_state) {
+int init(struct es_state *_state) {
+    fprintf (stderr, "eosimias_libev/init was called.\n");
     loop = ev_default_loop (0);
     return ES_OK;
 }
@@ -75,7 +76,7 @@ int es_watch_fd_for_reads_and_writes(int fd, void *associated_data, es_io_cb io_
 }
 
 int es_run() {
-    es_run (loop, 0);
+    ev_run (loop, 0);
     return ES_OK;
 }
 

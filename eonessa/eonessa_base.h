@@ -21,24 +21,8 @@
 #define EONESSA_BASE_H
 
 /* Return types */
-#define EN_OK                    0 /* successful result */
-#define EN_FAIL                 -1 /* generic failure */
-#define EN_NOMEM                -2 /* memory shortage failure */
-#define EN_BUFOVER              -3 /* overflowed buffer */
-#define EN_BADPARAM             -4 /* invalid parameter supplied */
-#define EN_CANT_DLINIT          -5
-#define EN_CANT_DLSETSEARCHPATH -6
-#define EN_CANT_DLOPENEXT       -7
-#define EN_CANT_DLSYM           -8
-#define EN_CANT_DLCLOSE         -9
-#define EN_CANT_DLEXIT          -10
 
-#ifndef MODULE_PATH_ENV
-#  define EONESSA_PLUGIN_PATH    "EONESSA_PLUGIN_PATH"
-#endif
-
-#define EN_LIB_DIR         PACKAGE_PKG_LIB_DIR
-
-#define EN_MAX_NUM_OF_SUBMODULES   128
+struct en_state {
+};
 
 #endif // EONESSA_BASE_H

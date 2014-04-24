@@ -24,4 +24,7 @@
 
 typedef int (*eocene_wireline_parse)(const char* buf, unsigned n, int capture_type);
 
+struct ec_state {
+};
+
 #endif // EOCENE_BASE_H

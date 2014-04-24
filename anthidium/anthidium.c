@@ -60,10 +60,18 @@ int main (int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    error = eosimias_init(state, &cfg);
+    if (error = eosimias_init(&state, &cfg)) {
+        fprintf (stderr, "eosimias_init returned: %s", eosimias_error_string(error));
+    }
 
-    fprintf (stderr, "eosimias_init returned: %s", eosimias_error_string(error));
-    
+//    if (error = eocene_init(state)) {
+//        fprintf (stderr, "eocene_init returned: %s", eosimias_error_string(error));
+//    }
+
+    if (error = eonessa_init(state)) {
+        fprintf (stderr, "eonessa_init returned: %s", eosimias_error_string(error));
+    }
+
     state->run();
 
     return(0);

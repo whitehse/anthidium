@@ -20,6 +20,6 @@
 #ifndef EOSIMIAS_BDB_BASE_H
 #define EOSIMIAS_BDB_BASE_H
 
-int init(config_setting_t *config);
+//int init(struct es_state *state);
 
 #endif // EOSIMIAS_BDB_BASE_H

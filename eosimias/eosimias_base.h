@@ -89,10 +89,10 @@ typedef int (*es_update_timeout_cb)(void **timer_ref, double timeout, es_timer_c
 typedef int (*es_update_associated_data_cb)(void **timer_ref, void *associated_data, es_timer_cb timer_cb);
 typedef int (*es_delete_timer_cb)(void **timer_ref);
 
-int set_eosimias_module_search_path (char* path);
-int load_eosimias_module (const char *module_name);
-int find_eosimias_symbol (const char *module_name, const char *symbol_name, void **reference);
-int unload_eosimias_module ();
+//int set_eosimias_module_search_path (char* path);
+//int load_eosimias_module (const char *module_name);
+//int find_eosimias_symbol (const char *module_name, const char *symbol_name, void **reference);
+//int unload_eosimias_module ();
 static char *dlerrordup (char *errormsg);
 
 struct es_state {
@@ -114,8 +114,8 @@ struct es_state {
     void* master_lua_state;
 };
 
-int eosimias_init (struct es_state *state, struct config_t *cfg);
+int eosimias_init (struct es_state **state, struct config_t *cfg);
 
-typedef int (*eosimias_module_init)(config_setting_t *config, struct ec_state *_state);
+typedef int (*eosimias_module_init)(struct es_state *_state);
 
 #endif // EOSIMIAS_BASE_H

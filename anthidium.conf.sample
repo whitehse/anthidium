@@ -2,7 +2,7 @@
  * and processes lua scripts
  */
 eosimias: {
-    module_path = "eosimias/eosimias_bdb/.libs:eosimias/eosimias_libev/.libs";
+    module_path = "eosimias/eosimias_bdb/.libs:eosimias/eosimias_libev/.libs:eonessa/eonessa_snmp_snmpv2_mib/.libs";
     data_store_module = "eosimias_bdb";
     event_module = "eosimias_libev";
 

@@ -44,9 +44,22 @@ int eonessa_init (struct es_state *state, struct en_state **en_state_ref) {
             free (en_state);
             return errors;
         }
+        eonessa_snmp_module_init eonessa_snmp_module_init_ref;
+        fprintf (stderr, "Getting ready to find the init function for module %s\n", module);
+        errors = find_eosimias_symbol (module, "init", &eonessa_snmp_module_init_ref);
+        if (errors) {
+            fprintf(stderr, "Unable to find init function for %s: %s\n", module, eosimias_error_string(errors));
+            free (en_state);
+            return errors;
+        }
+        errors = (*eonessa_snmp_module_init_ref) (state, en_state);
+        if (errors) {
+            fprintf(stderr, "Init function for %s failed: %s\n", module, eosimias_error_string(errors));
+            free (en_state);
+            return errors;
+        }
     }
 
-    //errors = load_eosimias_module(data_store_module);
 
     return ES_OK;
 }

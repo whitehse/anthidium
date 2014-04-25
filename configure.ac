@@ -96,6 +96,7 @@ AC_OUTPUT(Makefile \
           eocene/eocene_stp/Makefile \
           eocene/eocene_bridge_network/Makefile \
           eonessa/Makefile \
+          eonessa/eonessa_snmp_snmpv2_mib/Makefile
 		  anthidium/Makefile \
 )
 

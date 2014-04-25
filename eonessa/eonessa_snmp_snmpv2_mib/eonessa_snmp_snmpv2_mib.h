@@ -1,5 +1,5 @@
 
-/*
+/* 
  * Copyright (C) 2014 Dan White
  *
  * This library is free software; you can redistribute it and/or
@@ -17,14 +17,10 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef EONESSA_BASE_H
-#define EONESSA_BASE_H
+#ifndef EONESSA_SNMP_SNMPV2_MIB_H
+#define EONESSA_SNMP_SNMPV2_MIB_H
 
-/* Return types */
+#include "eonessa_snmp_snmpv2_mib_base.h"
 
-struct en_state {
-};
+#endif // EONESSA_SNMP_SNMPV2_MIB_H
 
-typedef int (*eonessa_snmp_module_init)(struct es_state *state, struct en_state *_en_state);
-
-#endif // EONESSA_BASE_H

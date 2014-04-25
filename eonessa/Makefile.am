@@ -1,10 +1,10 @@
 h_sources = eonessa.h eonessa_base.h eonessa_util.h
 cc_sources = eonessa.c eonessa_util.c
 
-#SUBDIRS = 
+SUBDIRS = eonessa_snmp_snmpv2_mib
 
 #Distribute these directories:
-#DIST_SUBDIRS = 
+DIST_SUBDIRS = eonessa_snmp_snmpv2_mib
 
 library_includedir=$(includedir)/eonessa
 library_include_HEADERS = $(h_sources)
